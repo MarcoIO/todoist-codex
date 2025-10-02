@@ -45,7 +45,8 @@ struct TaskListView: View {
                                         detailBuilder(task)
                                     } label: {
                                         TaskRowView(task: task)
-                                            .padding(.vertical, 6)
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal, 16)
                                     }
                                     .listRowInsets(EdgeInsets())
                                     .listRowBackground(Color.clear)
@@ -81,7 +82,12 @@ struct TaskListView: View {
                                     }
                                     .font(.subheadline)
                                     .foregroundColor(.accentColor)
-                                    .padding(.vertical, 4)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 16)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .fill(Color(.secondarySystemBackground))
+                                    )
                                 }
                                 .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                                 .listRowBackground(Color.clear)

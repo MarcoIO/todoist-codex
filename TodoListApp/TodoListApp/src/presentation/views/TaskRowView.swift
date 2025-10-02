@@ -14,7 +14,7 @@ struct TaskRowView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .firstTextBaseline) {
                 Text(task.title)
                     .font(.headline)
@@ -59,11 +59,13 @@ struct TaskRowView: View {
                 .clipShape(Capsule())
                 .accessibilityLabel(Text(LocalizedStringKey(task.category.localizationKey)))
         }
-        .padding(16)
+        .padding(.vertical, 20)
+        .padding(.horizontal, 24)
         .background(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
                 .fill(Color(.secondarySystemBackground))
         )
+        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
     }
 }
 

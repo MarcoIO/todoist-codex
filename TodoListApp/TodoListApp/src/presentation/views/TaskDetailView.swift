@@ -18,24 +18,32 @@ struct TaskDetailView: View {
         Group {
             if let task = viewModel.task {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text(task.title)
-                                .font(.title2)
-                                .fontWeight(.semibold)
+                    VStack(alignment: .leading, spacing: 28) {
+                        VStack(alignment: .leading, spacing: 18) {
+                            labeledContent(title: "Titulo") {
+                                Text(task.title)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
+                            }
 
-                            Text(dateFormatter.string(from: task.dueDate))
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                            labeledContent(title: "Fecha") {
+                                Text(dateFormatter.string(from: task.dueDate))
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
 
-                            Text(task.details)
-                                .font(.body)
-                                .foregroundColor(.primary)
+                            labeledContent(title: "Descripcion") {
+                                Text(task.details)
+                                    .font(.body)
+                                    .foregroundColor(.primary)
+                            }
                         }
-                        .padding(20)
+                        .padding(.vertical, 28)
+                        .padding(.horizontal, 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
                                 .fill(Color(.secondarySystemBackground))
                         )
 
@@ -43,10 +51,11 @@ struct TaskDetailView: View {
                             infoRow(title: "form_list", value: Text(task.listName))
                             infoRow(title: "form_category", value: Text(LocalizedStringKey(task.category.localizationKey)))
                         }
-                        .padding(20)
+                        .padding(.vertical, 24)
+                        .padding(.horizontal, 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
                                 .fill(Color(.secondarySystemBackground))
                         )
 
@@ -72,15 +81,16 @@ struct TaskDetailView: View {
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(20)
+                        .padding(.vertical, 24)
+                        .padding(.horizontal, 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
                                 .fill(Color(.secondarySystemBackground))
                         )
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical, 24)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 32)
                 }
                 .background(Color(.systemGroupedBackground).ignoresSafeArea())
             } else if let error = viewModel.errorMessage {
@@ -112,6 +122,16 @@ struct TaskDetailView: View {
             value
                 .font(.headline)
                 .foregroundColor(.primary)
+        }
+    }
+
+    private func labeledContent<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .textCase(nil)
+            content()
         }
     }
 }
