@@ -80,14 +80,13 @@ public final class TaskListViewModel: ObservableObject {
     @MainActor
     public func addTask(
         to list: TaskList,
-        iconName: String,
         title: String,
         details: String,
         dueDate: Date,
         category: TaskCategory
     ) {
         let task = Task(
-            iconName: iconName,
+            iconName: category.iconName,
             title: title,
             details: details,
             dueDate: dueDate,

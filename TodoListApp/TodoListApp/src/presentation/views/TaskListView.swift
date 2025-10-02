@@ -48,7 +48,7 @@ struct TaskListView: View {
                                             .padding(.vertical, 10)
                                             .padding(.horizontal, 16)
                                     }
-                                    .listRowInsets(EdgeInsets())
+                                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
                                     .listRowBackground(Color.clear)
                                     .contextMenu {
                                         Button(action: {
@@ -132,10 +132,9 @@ struct TaskListView: View {
                     TaskFormView(
                         listName: list.name,
                         categories: categories
-                    ) { icon, title, details, date, category in
+                    ) { title, details, date, category in
                         viewModel.addTask(
                             to: list,
-                            iconName: icon,
                             title: title,
                             details: details,
                             dueDate: date,
