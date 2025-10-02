@@ -79,12 +79,12 @@ private extension TaskEntity {
 private extension TaskDataModel {
     init(entity: TaskEntity) {
         self.init(
-            identifier: entity.identifier,
-            iconName: entity.iconName,
-            title: entity.titleText,
-            details: entity.detailsText,
-            dueDate: entity.dueDate,
-            statusRaw: entity.statusRaw
+            identifier: entity.identifier ?? UUID(),
+            iconName: entity.iconName ?? "",
+            title: entity.titleText ?? "",
+            details: entity.detailsText ?? "",
+            dueDate: entity.dueDate ?? Date(),
+            statusRaw: entity.statusRaw ?? ""
         )
     }
 }
