@@ -127,6 +127,9 @@ struct TaskFormView: View {
 
 struct TaskFormView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskFormView(listName: "Personal", categories: TaskCategory.allCases) { _, _, _, _, _ in }
+        TaskFormView(
+            listName: NSLocalizedString("sample_list_work", comment: ""),
+            categories: TaskCategory.allCases
+        ) { _, _, _, _, _ in }
     }
 }

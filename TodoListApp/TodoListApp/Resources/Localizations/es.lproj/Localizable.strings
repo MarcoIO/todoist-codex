@@ -40,6 +40,9 @@
 "action_mark_pending" = "Marcar como pendiente";
 "action_mark_completed" = "Marcar como completada";
 "error_title" = "Ups";
+"error_list_not_found" = "La lista seleccionada ya no está disponible.";
+"error_task_not_found" = "No pudimos encontrar esa tarea.";
+"error_unknown" = "Algo salió mal. Inténtalo de nuevo.";
 "action_accept" = "Aceptar";
 "detail_title" = "Tarea";
 "language_english" = "Inglés";

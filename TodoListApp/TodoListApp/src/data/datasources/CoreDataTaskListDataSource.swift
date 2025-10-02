@@ -31,7 +31,7 @@ public final class CoreDataTaskListDataSource {
 
     public func deleteList(by identifier: UUID) throws {
         guard let entity = try fetchListEntity(identifier: identifier) else {
-            throw NSError(domain: "TaskListEntity", code: 0, userInfo: [NSLocalizedDescriptionKey: "List not found"])
+            throw TaskDataSourceError.listNotFound
         }
         context.delete(entity)
         try context.save()
@@ -39,7 +39,7 @@ public final class CoreDataTaskListDataSource {
 
     public func add(task: TaskDataModel) throws {
         guard let listEntity = try fetchListEntity(identifier: task.listIdentifier) else {
-            throw NSError(domain: "TaskListEntity", code: 1, userInfo: [NSLocalizedDescriptionKey: "List not found"])
+            throw TaskDataSourceError.listNotFound
         }
         let entity = TaskEntity(context: context)
         entity.update(from: task, listEntity: listEntity)
@@ -51,10 +51,10 @@ public final class CoreDataTaskListDataSource {
         request.predicate = NSPredicate(format: "identifier == %@", task.identifier as CVarArg)
         request.fetchLimit = 1
         guard let entity = try context.fetch(request).first else {
-            throw NSError(domain: "TaskEntity", code: 0, userInfo: [NSLocalizedDescriptionKey: "Task not found"])
+            throw TaskDataSourceError.taskNotFound
         }
         guard let listEntity = try fetchListEntity(identifier: task.listIdentifier) else {
-            throw NSError(domain: "TaskListEntity", code: 1, userInfo: [NSLocalizedDescriptionKey: "List not found"])
+            throw TaskDataSourceError.listNotFound
         }
         entity.update(from: task, listEntity: listEntity)
         try context.save()
@@ -65,7 +65,7 @@ public final class CoreDataTaskListDataSource {
         request.predicate = NSPredicate(format: "identifier == %@", identifier as CVarArg)
         request.fetchLimit = 1
         guard let entity = try context.fetch(request).first else {
-            throw NSError(domain: "TaskEntity", code: 1, userInfo: [NSLocalizedDescriptionKey: "Task not found"])
+            throw TaskDataSourceError.taskNotFound
         }
         context.delete(entity)
         try context.save()

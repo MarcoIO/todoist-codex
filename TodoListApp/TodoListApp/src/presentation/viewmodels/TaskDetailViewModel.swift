@@ -24,7 +24,7 @@ public final class TaskDetailViewModel: ObservableObject {
         do {
             task = try getTaskByIDUseCase.execute(identifier: taskIdentifier)
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -36,7 +36,18 @@ public final class TaskDetailViewModel: ObservableObject {
             try updateTaskStatusUseCase.execute(task: currentTask)
             loadTask()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
+    }
+
+    private func message(for error: Error) -> String {
+        if
+            let localizedError = error as? LocalizedError,
+            let description = localizedError.errorDescription,
+            !description.isEmpty
+        {
+            return description
+        }
+        return NSLocalizedString("error_unknown", comment: "")
     }
 }

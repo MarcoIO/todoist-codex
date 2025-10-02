@@ -117,8 +117,17 @@ struct TaskDetailView_Previews: PreviewProvider {
         let repository = TaskListRepositoryImpl(dataSource: CoreDataTaskListDataSource(context: PersistenceController(inMemory: true).container.viewContext))
         let useCase = GetTaskByIDUseCase(repository: repository)
         let update = UpdateTaskStatusUseCase(repository: repository)
-        let list = TaskList(name: "Work", category: .work)
-        let task = Task(iconName: "list.bullet.rectangle", title: "Preview", details: "Details", dueDate: Date(), status: .pending, listID: list.id, listName: list.name, category: .work)
+        let list = TaskList(name: NSLocalizedString("sample_list_work", comment: ""), category: .work)
+        let task = Task(
+            iconName: "list.bullet.rectangle",
+            title: NSLocalizedString("sample_task_title_plan", comment: ""),
+            details: NSLocalizedString("sample_task_details_plan", comment: ""),
+            dueDate: Date(),
+            status: .pending,
+            listID: list.id,
+            listName: list.name,
+            category: .work
+        )
         try? repository.add(list: list)
         try? repository.add(task: task)
         return NavigationView {

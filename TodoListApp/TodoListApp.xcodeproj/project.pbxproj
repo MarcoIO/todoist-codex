@@ -29,6 +29,11 @@
 		A10000272000000000000001 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000262000000000000001 /* PersistenceController.swift */; };
                 B10000022000000000000001 /* CoreDataTaskListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000012000000000000001 /* CoreDataTaskListDataSource.swift */; };
                 B10000042000000000000001 /* TaskListDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000032000000000000001 /* TaskListDataModel.swift */; };
+                C10000032000000000000001 /* TaskDataSourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000022000000000000001 /* TaskDataSourceError.swift */; };
+                C10000052000000000000001 /* TaskUseCasesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000042000000000000001 /* TaskUseCasesTests.swift */; };
+                C10000072000000000000001 /* TaskListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000062000000000000001 /* TaskListViewModelTests.swift */; };
+                C10000092000000000000001 /* TaskDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000082000000000000001 /* TaskDetailViewModelTests.swift */; };
+                C100000B2000000000000001 /* TaskListRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C100000A2000000000000001 /* TaskListRepositoryMock.swift */; };
                 B10000062000000000000001 /* TaskCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000052000000000000001 /* TaskCategory.swift */; };
                 B10000082000000000000001 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000072000000000000001 /* TaskList.swift */; };
                 B100000A2000000000000001 /* AddTaskListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000092000000000000001 /* AddTaskListUseCase.swift */; };
@@ -69,6 +74,11 @@
                 B100000B2000000000000001 /* DeleteTaskListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTaskListUseCase.swift; sourceTree = "<group>"; };
                 B100000D2000000000000001 /* TaskListFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListFormView.swift; sourceTree = "<group>"; };
                 B100000F2000000000000001 /* TaskListRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRepositoryTests.swift; sourceTree = "<group>"; };
+                C10000022000000000000001 /* TaskDataSourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataSourceError.swift; sourceTree = "<group>"; };
+                C10000042000000000000001 /* TaskUseCasesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskUseCasesTests.swift; sourceTree = "<group>"; };
+                C10000062000000000000001 /* TaskListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModelTests.swift; sourceTree = "<group>"; };
+                C10000082000000000000001 /* TaskDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewModelTests.swift; sourceTree = "<group>"; };
+                C100000A2000000000000001 /* TaskListRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRepositoryMock.swift; sourceTree = "<group>"; };
                 B10000112000000000000001 /* TodoListAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoListAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A100002A2000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A100002F2000000000000001 /* TaskModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModel.xcdatamodel; sourceTree = "<group>"; };
@@ -110,8 +120,20 @@
                         isa = PBXGroup;
                         children = (
                                 B100000F2000000000000001 /* TaskListRepositoryTests.swift */,
+                                C10000042000000000000001 /* TaskUseCasesTests.swift */,
+                                C10000062000000000000001 /* TaskListViewModelTests.swift */,
+                                C10000082000000000000001 /* TaskDetailViewModelTests.swift */,
+                                C100000C2000000000000001 /* TestDoubles */,
                         );
                         path = TodoListAppTests;
+                        sourceTree = "<group>";
+                };
+                C100000C2000000000000001 /* TestDoubles */ = {
+                        isa = PBXGroup;
+                        children = (
+                                C100000A2000000000000001 /* TaskListRepositoryMock.swift */,
+                        );
+                        path = TestDoubles;
                         sourceTree = "<group>";
                 };
 		A10000422000000000000001 /* Resources */ = {
@@ -230,6 +252,7 @@
                         children = (
                                 A10000262000000000000001 /* PersistenceController.swift */,
                                 B10000012000000000000001 /* CoreDataTaskListDataSource.swift */,
+                                C10000022000000000000001 /* TaskDataSourceError.swift */,
                         );
                         path = datasources;
                         sourceTree = "<group>";
@@ -392,6 +415,7 @@
                                 B10000042000000000000001 /* TaskListDataModel.swift in Sources */,
                                 A10000272000000000000001 /* PersistenceController.swift in Sources */,
                                 B10000022000000000000001 /* CoreDataTaskListDataSource.swift in Sources */,
+                                C10000032000000000000001 /* TaskDataSourceError.swift in Sources */,
                                 A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */,
                         );
                         runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +425,10 @@
                         buildActionMask = 2147483647;
                         files = (
                                 B10000102000000000000001 /* TaskListRepositoryTests.swift in Sources */,
+                                C10000052000000000000001 /* TaskUseCasesTests.swift in Sources */,
+                                C10000072000000000000001 /* TaskListViewModelTests.swift in Sources */,
+                                C10000092000000000000001 /* TaskDetailViewModelTests.swift in Sources */,
+                                C100000B2000000000000001 /* TaskListRepositoryMock.swift in Sources */,
                         );
                         runOnlyForDeploymentPostprocessing = 0;
                 };

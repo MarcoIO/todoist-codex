@@ -54,12 +54,12 @@ struct TaskRowView_Previews: PreviewProvider {
         TaskRowView(
             task: Task(
                 iconName: "list.bullet.rectangle",
-                title: "Plan roadmap",
-                details: "Review milestones for next sprint.",
+                title: NSLocalizedString("sample_task_title_plan", comment: ""),
+                details: NSLocalizedString("sample_task_details_plan", comment: ""),
                 dueDate: Date(),
                 status: .pending,
                 listID: UUID(),
-                listName: "Work",
+                listName: NSLocalizedString("sample_list_work", comment: ""),
                 category: .work
             )
         )

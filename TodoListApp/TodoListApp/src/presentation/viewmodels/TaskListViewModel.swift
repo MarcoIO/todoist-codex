@@ -34,7 +34,7 @@ public final class TaskListViewModel: ObservableObject {
             lists = try fetchTaskListsUseCase.execute()
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -45,7 +45,7 @@ public final class TaskListViewModel: ObservableObject {
             try addTaskListUseCase.execute(list: list)
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -63,7 +63,7 @@ public final class TaskListViewModel: ObservableObject {
             }
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -73,7 +73,7 @@ public final class TaskListViewModel: ObservableObject {
             try deleteTaskListUseCase.execute(identifier: list.id)
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -101,7 +101,7 @@ public final class TaskListViewModel: ObservableObject {
             try addTaskUseCase.execute(task: task)
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -113,7 +113,7 @@ public final class TaskListViewModel: ObservableObject {
             try updateTaskStatusUseCase.execute(task: updatedTask)
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -123,7 +123,7 @@ public final class TaskListViewModel: ObservableObject {
             try deleteTaskUseCase.execute(identifier: task.id)
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
     }
 
@@ -141,7 +141,18 @@ public final class TaskListViewModel: ObservableObject {
             }
             loadLists()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = message(for: error)
         }
+    }
+
+    private func message(for error: Error) -> String {
+        if
+            let localizedError = error as? LocalizedError,
+            let description = localizedError.errorDescription,
+            !description.isEmpty
+        {
+            return description
+        }
+        return NSLocalizedString("error_unknown", comment: "")
     }
 }

@@ -40,6 +40,9 @@
 "action_mark_pending" = "Mark as pending";
 "action_mark_completed" = "Mark as completed";
 "error_title" = "Oops";
+"error_list_not_found" = "The selected list is no longer available.";
+"error_task_not_found" = "We couldn't find that task.";
+"error_unknown" = "Something went wrong. Please try again.";
 "action_accept" = "OK";
 "detail_title" = "Task";
 "language_english" = "English";
