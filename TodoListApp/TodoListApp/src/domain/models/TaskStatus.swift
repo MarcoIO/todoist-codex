@@ -11,9 +11,9 @@ public enum TaskStatus: String, Codable, CaseIterable, Identifiable {
     public var localizationKey: String {
         switch self {
         case .pending:
-            return "task_status_pending"
+            return  NSLocalizedString("task_status_pending", comment: "")
         case .completed:
-            return "task_status_completed"
+            return  NSLocalizedString("task_status_completed", comment: "")
         }
     }
 }

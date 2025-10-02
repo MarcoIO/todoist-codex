@@ -30,10 +30,10 @@ public final class TaskDetailViewModel: ObservableObject {
 
     @MainActor
     public func toggleStatus() {
-        guard var task else { return }
-        task.status = task.status == .completed ? .pending : .completed
+        guard var currentTask = task else { return }
+        currentTask.status = currentTask.status == .completed ? .pending : .completed
         do {
-            try updateTaskStatusUseCase.execute(task: task)
+            try updateTaskStatusUseCase.execute(task: currentTask)
             loadTask()
         } catch {
             errorMessage = error.localizedDescription

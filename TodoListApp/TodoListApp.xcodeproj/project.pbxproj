@@ -25,12 +25,11 @@
 		A100001B2000000000000001 /* AddTaskUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001A2000000000000001 /* AddTaskUseCase.swift */; };
 		A100001D2000000000000001 /* UpdateTaskStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001C2000000000000001 /* UpdateTaskStatusUseCase.swift */; };
 		A100001F2000000000000001 /* TaskRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001E2000000000000001 /* TaskRepositoryImpl.swift */; };
-		A10000212000000000000001 /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000202000000000000001 /* TaskEntity+CoreDataClass.swift */; };
-		A10000232000000000000001 /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000222000000000000001 /* TaskEntity+CoreDataProperties.swift */; };
 		A10000252000000000000001 /* TaskDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000242000000000000001 /* TaskDataModel.swift */; };
 		A10000272000000000000001 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000262000000000000001 /* PersistenceController.swift */; };
 		A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282000000000000001 /* CoreDataTaskDataSource.swift */; };
 		A100002B2000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100002A2000000000000001 /* Assets.xcassets */; };
+		A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A100002E2000000000000001 /* TaskModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,13 +52,11 @@
 		A100001A2000000000000001 /* AddTaskUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskUseCase.swift; sourceTree = "<group>"; };
 		A100001C2000000000000001 /* UpdateTaskStatusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTaskStatusUseCase.swift; sourceTree = "<group>"; };
 		A100001E2000000000000001 /* TaskRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepositoryImpl.swift; sourceTree = "<group>"; };
-		A10000202000000000000001 /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		A10000222000000000000001 /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A10000242000000000000001 /* TaskDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataModel.swift; sourceTree = "<group>"; };
 		A10000262000000000000001 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		A10000282000000000000001 /* CoreDataTaskDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTaskDataSource.swift; sourceTree = "<group>"; };
 		A100002A2000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A100002E2000000000000001 /* TaskModel.xcdatamodeld */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodeld; path = TaskModel.xcdatamodeld; sourceTree = "<group>"; };
+		A100002F2000000000000001 /* TaskModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModel.xcdatamodel; sourceTree = "<group>"; };
 		A10000302000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,8 +189,6 @@
 		A100004C2000000000000001 /* entities */ = {
 			isa = PBXGroup;
 			children = (
-				A10000202000000000000001 /* TaskEntity+CoreDataClass.swift */,
-				A10000222000000000000001 /* TaskEntity+CoreDataProperties.swift */,
 				A10000242000000000000001 /* TaskDataModel.swift */,
 			);
 			path = entities;
@@ -297,11 +292,10 @@
 				A100001D2000000000000001 /* UpdateTaskStatusUseCase.swift in Sources */,
 				6F4251F89B1545F5A052964D1BA0481D /* DeleteTaskUseCase.swift in Sources */,
 				A100001F2000000000000001 /* TaskRepositoryImpl.swift in Sources */,
-				A10000212000000000000001 /* TaskEntity+CoreDataClass.swift in Sources */,
-				A10000232000000000000001 /* TaskEntity+CoreDataProperties.swift in Sources */,
 				A10000252000000000000001 /* TaskDataModel.swift in Sources */,
 				A10000272000000000000001 /* PersistenceController.swift in Sources */,
 				A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */,
+				A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +478,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A100002E2000000000000001 /* TaskModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A100002F2000000000000001 /* TaskModel.xcdatamodel */,
+			);
+			currentVersion = A100002F2000000000000001 /* TaskModel.xcdatamodel */;
+			path = TaskModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A10000532000000000000001 /* Project object */;
 }

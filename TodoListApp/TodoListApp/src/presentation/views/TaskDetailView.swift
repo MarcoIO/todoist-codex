@@ -55,12 +55,17 @@ struct TaskDetailView: View {
 
                             Spacer()
 
-                            Button {
+                            Button(action: {
                                 viewModel.toggleStatus()
-                            } label: {
+                            }) {
                                 Text(task.status == .completed ? "action_mark_pending" : "action_mark_completed")
+                                    .font(.headline)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .background(Color.accentColor)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
                             }
-                            .buttonStyle(.borderedProminent)
                         }
                     }
                     .padding()
@@ -80,9 +85,6 @@ struct TaskDetailView: View {
                 .padding()
             } else {
                 ProgressView()
-                    .task {
-                        viewModel.loadTask()
-                    }
             }
         }
         .navigationTitle(Text("detail_title"))
@@ -100,7 +102,7 @@ struct TaskDetailView_Previews: PreviewProvider {
         let update = UpdateTaskStatusUseCase(repository: repository)
         let task = Task(iconName: "list.bullet.rectangle", title: "Preview", details: "Details", dueDate: Date(), status: .pending)
         try? repository.add(task: task)
-        return NavigationStack {
+        return NavigationView {
             TaskDetailView(
                 viewModel: TaskDetailViewModel(
                     taskIdentifier: task.id,
