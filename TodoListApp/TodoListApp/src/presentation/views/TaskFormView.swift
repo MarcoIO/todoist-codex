@@ -7,8 +7,9 @@ struct TaskFormView: View {
     @State private var title: String = ""
     @State private var details: String = ""
     @State private var dueDate: Date = Date()
+    @State private var category: TaskCategory = .planning
 
-    let onSave: (String, String, String, Date) -> Void
+    let onSave: (String, String, String, Date, TaskCategory) -> Void
 
     private let availableIcons: [String] = [
         "list.bullet.circle",
@@ -60,6 +61,19 @@ struct TaskFormView: View {
                         Text("form_due_date")
                     }
                 }
+
+                Section(header: Text("form_task_category")) {
+                    Picker("form_task_category", selection: $category) {
+                        ForEach(TaskCategory.allCases) { category in
+                            Label {
+                                Text(LocalizedStringKey(category.localizationKey))
+                            } icon: {
+                                Image(systemName: category.iconName)
+                            }
+                            .tag(category)
+                        }
+                    }
+                }
             }
             .navigationTitle(Text("form_add_task"))
             .toolbar {
@@ -71,7 +85,7 @@ struct TaskFormView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("action_save") {
-                        onSave(iconName, title, details, dueDate)
+                        onSave(iconName, title, details, dueDate, category)
                         presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -103,6 +117,6 @@ struct TaskFormView: View {
 
 struct TaskFormView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskFormView { _, _, _, _ in }
+        TaskFormView { _, _, _, _, _ in }
     }
 }

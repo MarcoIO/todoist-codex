@@ -4,7 +4,8 @@ struct TaskListView: View {
     @EnvironmentObject private var languageController: LanguageController
     @StateObject private var viewModel: TaskListViewModel
 
-    @State private var isPresentingForm = false
+    @State private var isPresentingListForm = false
+    @State private var listForTaskForm: TaskList?
 
     private let detailBuilder: (Task) -> TaskDetailView
 
@@ -19,14 +20,14 @@ struct TaskListView: View {
     var body: some View {
         NavigationView {
             Group {
-                if viewModel.tasks.isEmpty {
+                if viewModel.lists.isEmpty {
                     VStack(spacing: 16) {
-                        Image(systemName: "list.bullet.rectangle")
+                        Image(systemName: "square.stack.3d.up")
                             .font(.system(size: 48))
                             .foregroundColor(.accentColor)
-                        Text("empty_title")
+                        Text("empty_lists_title")
                             .font(.headline)
-                        Text("empty_description")
+                        Text("empty_lists_description")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -34,31 +35,45 @@ struct TaskListView: View {
                     .padding()
                 } else {
                     List {
-                        ForEach(viewModel.tasks) { task in
-                            NavigationLink {
-                                detailBuilder(task)
-                            } label: {
-                                TaskRowView(task: task)
-                                    .contextMenu {
-                                        Button(action: {
-                                            viewModel.toggleStatus(for: task)
-                                        }) {
-                                            Label(
-                                                task.status == .completed ? "action_mark_pending" : "action_mark_completed",
-                                                systemImage: task.status == .completed ? "arrow.uturn.left" : "checkmark"
-                                            )
-                                        }
+                        ForEach(Array(viewModel.lists.enumerated()), id: \.element.id) { index, list in
+                            Section(header: listHeader(for: list, index: index)) {
+                                if list.tasks.isEmpty {
+                                    Text("empty_list_tasks")
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                } else {
+                                    ForEach(list.tasks) { task in
+                                        NavigationLink {
+                                            detailBuilder(task)
+                                        } label: {
+                                            TaskRowView(task: task)
+                                                .contextMenu {
+                                                    Button(action: {
+                                                        viewModel.toggleStatus(for: task)
+                                                    }) {
+                                                        Label(
+                                                            task.status == .completed ? "action_mark_pending" : "action_mark_completed",
+                                                            systemImage: task.status == .completed ? "arrow.uturn.left" : "checkmark"
+                                                        )
+                                                    }
 
-                                        Button(action: {
-                                            viewModel.delete(task: task)
-                                        }) {
-                                            Label("action_delete", systemImage: "trash")
+                                                    Button(action: {
+                                                        viewModel.delete(task: task)
+                                                    }) {
+                                                        Label("action_delete", systemImage: "trash")
+                                                            .foregroundColor(.red)
+                                                    }
+                                                }
                                         }
                                     }
+                                    .onDelete { offsets in
+                                        viewModel.deleteTasks(in: list, at: offsets)
+                                    }
+                                }
                             }
                         }
                         .onDelete { offsets in
-                            viewModel.deleteTasks(at: offsets)
+                            viewModel.deleteLists(at: offsets)
                         }
                     }
                     .listStyle(InsetGroupedListStyle())
@@ -83,26 +98,49 @@ struct TaskListView: View {
 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
-                    Button {
-                        isPresentingForm = true
+                    Menu {
+                        Button {
+                            isPresentingListForm = true
+                        } label: {
+                            Label("action_add_list", systemImage: "square.and.pencil")
+                        }
+
+                        if !viewModel.lists.isEmpty {
+                            Divider()
+                            ForEach(viewModel.lists) { list in
+                                Button {
+                                    listForTaskForm = list
+                                } label: {
+                                    Label(list.name, systemImage: "plus")
+                                }
+                            }
+                        }
                     } label: {
                         Label("action_add", systemImage: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $isPresentingForm) {
-                TaskFormView { icon, title, details, date in
+            .sheet(item: $listForTaskForm) { list in
+                TaskFormView { icon, title, details, date, category in
                     viewModel.addTask(
+                        in: list,
                         iconName: icon,
                         title: title,
                         details: details,
-                        dueDate: date
+                        dueDate: date,
+                        category: category
                     )
                 }
                 .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
             }
+            .sheet(isPresented: $isPresentingListForm) {
+                TaskListFormView { name, category in
+                    viewModel.addList(name: name, category: category)
+                }
+                .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
+            }
             .onAppear {
-                viewModel.loadTasks()
+                viewModel.loadData()
             }
             .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
             .alert(isPresented: Binding(
@@ -118,31 +156,70 @@ struct TaskListView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
+
+    private func listHeader(for list: TaskList, index: Int) -> some View {
+        HStack {
+            Label {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(list.name)
+                        .font(.headline)
+                    Text(LocalizedStringKey(list.category.localizationKey))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            } icon: {
+                Image(systemName: list.category.iconName)
+            }
+
+            Spacer()
+
+            Button {
+                listForTaskForm = list
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .imageScale(.large)
+            }
+            .buttonStyle(BorderlessButtonStyle())
+            .accessibilityLabel(Text("action_add_task"))
+            .contextMenu {
+                Button(action: {
+                    viewModel.deleteLists(at: IndexSet(integer: index))
+                }) {
+                    Label("action_delete", systemImage: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
 }
 
 struct TaskListView_Previews: PreviewProvider {
     static var previews: some View {
         let persistence = PersistenceController(inMemory: true)
-        let repository = TaskRepositoryImpl(dataSource: CoreDataTaskDataSource(context: persistence.container.viewContext))
-        let fetch = FetchTasksUseCase(repository: repository)
-        let add = AddTaskUseCase(repository: repository)
-        let update = UpdateTaskStatusUseCase(repository: repository)
-        let delete = DeleteTaskUseCase(repository: repository)
-        let get = GetTaskByIDUseCase(repository: repository)
-        let listViewModel = TaskListViewModel(
-            fetchTasksUseCase: fetch,
-            addTaskUseCase: add,
-            updateTaskStatusUseCase: update,
-            deleteTaskUseCase: delete
+        let repository = TaskListRepositoryImpl(dataSource: CoreDataTaskDataSource(context: persistence.container.viewContext))
+        let fetch = FetchTaskListsUseCase(repository: repository)
+        let addList = AddTaskListUseCase(repository: repository)
+        let deleteList = DeleteTaskListUseCase(repository: repository)
+        let addTask = AddTaskUseCase(repository: repository)
+        let updateTask = UpdateTaskStatusUseCase(repository: repository)
+        let deleteTask = DeleteTaskUseCase(repository: repository)
+        let viewModel = TaskListViewModel(
+            fetchTaskListsUseCase: fetch,
+            addTaskListUseCase: addList,
+            deleteTaskListUseCase: deleteList,
+            addTaskUseCase: addTask,
+            updateTaskUseCase: updateTask,
+            deleteTaskUseCase: deleteTask
         )
-        listViewModel.loadTasks()
+        viewModel.loadData()
 
-        return TaskListView(viewModel: listViewModel) { task in
+        return TaskListView(viewModel: viewModel) { task in
             TaskDetailView(
                 viewModel: TaskDetailViewModel(
                     taskIdentifier: task.id,
-                    getTaskByIDUseCase: get,
-                    updateTaskStatusUseCase: update
+                    getTaskByIDUseCase: GetTaskByIDUseCase(repository: repository),
+                    updateTaskStatusUseCase: updateTask
                 )
             )
         }

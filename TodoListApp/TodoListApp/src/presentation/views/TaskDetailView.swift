@@ -30,6 +30,12 @@ struct TaskDetailView: View {
                                     .font(.title)
                                     .bold()
                                 Label {
+                                    Text(LocalizedStringKey(task.category.localizationKey))
+                                } icon: {
+                                    Image(systemName: task.category.iconName)
+                                }
+                                .foregroundColor(.secondary)
+                                Label {
                                     Text(dateFormatter.string(from: task.dueDate))
                                 } icon: {
                                     Image(systemName: "calendar")
@@ -97,11 +103,22 @@ struct TaskDetailView: View {
 
 struct TaskDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let repository = TaskRepositoryImpl(dataSource: CoreDataTaskDataSource(context: PersistenceController(inMemory: true).container.viewContext))
+        let persistence = PersistenceController(inMemory: true)
+        let repository = TaskListRepositoryImpl(dataSource: CoreDataTaskDataSource(context: persistence.container.viewContext))
+        let list = TaskList(name: "Preview", category: .work)
+        try? repository.add(list: list)
+        let task = Task(
+            listID: list.id,
+            iconName: "list.bullet.rectangle",
+            title: "Preview",
+            details: "Details",
+            dueDate: Date(),
+            status: .pending,
+            category: .planning
+        )
+        try? repository.add(task: task, to: list.id)
         let useCase = GetTaskByIDUseCase(repository: repository)
         let update = UpdateTaskStatusUseCase(repository: repository)
-        let task = Task(iconName: "list.bullet.rectangle", title: "Preview", details: "Details", dueDate: Date(), status: .pending)
-        try? repository.add(task: task)
         return NavigationView {
             TaskDetailView(
                 viewModel: TaskDetailViewModel(
