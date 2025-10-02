@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
+    <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="detailsText" optional="NO" attributeType="String" syncable="YES"/>
+        <attribute name="dueDate" optional="NO" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="iconName" optional="NO" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" optional="NO" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="statusRaw" optional="NO" attributeType="String" syncable="YES"/>
+        <attribute name="titleText" optional="NO" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="TaskEntity" positionX="-63" positionY="-18" width="128" height="150"/>
+    </elements>
+</model>
