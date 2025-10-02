@@ -16,12 +16,27 @@ struct TaskRowView: View {
                 .foregroundColor(task.status == .completed ? .green : .accentColor)
                 .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(task.title)
                     .font(.headline)
-                Text(dateFormatter.string(from: task.dueDate))
+
+                Text(task.listName)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+
+                HStack(spacing: 8) {
+                    Label {
+                        Text(LocalizedStringKey(task.category.localizationKey))
+                    } icon: {
+                        Image(systemName: task.category.iconName)
+                    }
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                    Text(dateFormatter.string(from: task.dueDate))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
             Spacer()
@@ -39,10 +54,13 @@ struct TaskRowView_Previews: PreviewProvider {
         TaskRowView(
             task: Task(
                 iconName: "list.bullet.rectangle",
-                title: "Plan roadmap",
-                details: "Review milestones for next sprint.",
+                title: NSLocalizedString("sample_task_title_plan", comment: ""),
+                details: NSLocalizedString("sample_task_details_plan", comment: ""),
                 dueDate: Date(),
-                status: .pending
+                status: .pending,
+                listID: UUID(),
+                listName: NSLocalizedString("sample_list_work", comment: ""),
+                category: .work
             )
         )
         .previewLayout(.sizeThatFits)

@@ -38,6 +38,23 @@ struct TaskDetailView: View {
                             }
                         }
 
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label {
+                                Text(task.listName)
+                            } icon: {
+                                Image(systemName: "folder")
+                            }
+                            .font(.headline)
+
+                            Label {
+                                Text(LocalizedStringKey(task.category.localizationKey))
+                            } icon: {
+                                Image(systemName: task.category.iconName)
+                            }
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        }
+
                         Text(task.details)
                             .font(.body)
 
@@ -97,10 +114,21 @@ struct TaskDetailView: View {
 
 struct TaskDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let repository = TaskRepositoryImpl(dataSource: CoreDataTaskDataSource(context: PersistenceController(inMemory: true).container.viewContext))
+        let repository = TaskListRepositoryImpl(dataSource: CoreDataTaskListDataSource(context: PersistenceController(inMemory: true).container.viewContext))
         let useCase = GetTaskByIDUseCase(repository: repository)
         let update = UpdateTaskStatusUseCase(repository: repository)
-        let task = Task(iconName: "list.bullet.rectangle", title: "Preview", details: "Details", dueDate: Date(), status: .pending)
+        let list = TaskList(name: NSLocalizedString("sample_list_work", comment: ""), category: .work)
+        let task = Task(
+            iconName: "list.bullet.rectangle",
+            title: NSLocalizedString("sample_task_title_plan", comment: ""),
+            details: NSLocalizedString("sample_task_details_plan", comment: ""),
+            dueDate: Date(),
+            status: .pending,
+            listID: list.id,
+            listName: list.name,
+            category: .work
+        )
+        try? repository.add(list: list)
         try? repository.add(task: task)
         return NavigationView {
             TaskDetailView(

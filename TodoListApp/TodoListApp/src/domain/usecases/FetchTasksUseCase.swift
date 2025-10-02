@@ -1,14 +1,14 @@
 import Foundation
 
-/// Retrieves the available tasks from the repository.
-public struct FetchTasksUseCase {
-    private let repository: TaskRepository
+/// Retrieves the available task lists from the repository.
+public struct FetchTaskListsUseCase {
+    private let repository: TaskListRepository
 
-    public init(repository: TaskRepository) {
+    public init(repository: TaskListRepository) {
         self.repository = repository
     }
 
-    public func execute() throws -> [Task] {
-        try repository.fetchTasks()
+    public func execute() throws -> [TaskList] {
+        try repository.fetchLists()
     }
 }

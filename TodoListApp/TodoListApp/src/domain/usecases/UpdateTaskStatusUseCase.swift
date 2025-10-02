@@ -1,10 +1,10 @@
 import Foundation
 
-/// Updates an existing task.
+/// Updates a task state inside the repository.
 public struct UpdateTaskStatusUseCase {
-    private let repository: TaskRepository
+    private let repository: TaskListRepository
 
-    public init(repository: TaskRepository) {
+    public init(repository: TaskListRepository) {
         self.repository = repository
     }
 

@@ -1,10 +1,12 @@
 import Foundation
 
-/// Abstraction for task persistence operations.
-public protocol TaskRepository {
-    func fetchTasks() throws -> [Task]
-    func getTask(by identifier: UUID) throws -> Task?
+/// Abstraction for task list persistence operations.
+public protocol TaskListRepository {
+    func fetchLists() throws -> [TaskList]
+    func add(list: TaskList) throws
+    func deleteList(identifier: UUID) throws
     func add(task: Task) throws
     func update(task: Task) throws
-    func delete(identifier: UUID) throws
+    func deleteTask(identifier: UUID) throws
+    func getTask(by identifier: UUID) throws -> Task?
 }
