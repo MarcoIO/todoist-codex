@@ -1,32 +1,105 @@
 import Foundation
 
-/// Manages the state of the task list screen.
+/// Manages the state of the task list screen with multiple lists and categories.
 public final class TaskListViewModel: ObservableObject {
-    @Published public private(set) var tasks: [Task] = []
+    @Published public private(set) var lists: [TaskList] = []
     @Published public var errorMessage: String?
 
-    private let fetchTasksUseCase: FetchTasksUseCase
-    private let addTaskUseCase: AddTaskUseCase
+    private let fetchTaskListsUseCase: FetchTaskListsUseCase
+    private let addTaskListUseCase: AddTaskListUseCase
+    private let deleteTaskListUseCase: DeleteTaskListUseCase
+    private let addTaskUseCase: AddTaskToListUseCase
     private let updateTaskStatusUseCase: UpdateTaskStatusUseCase
     private let deleteTaskUseCase: DeleteTaskUseCase
 
     public init(
-        fetchTasksUseCase: FetchTasksUseCase,
-        addTaskUseCase: AddTaskUseCase,
+        fetchTaskListsUseCase: FetchTaskListsUseCase,
+        addTaskListUseCase: AddTaskListUseCase,
+        deleteTaskListUseCase: DeleteTaskListUseCase,
+        addTaskUseCase: AddTaskToListUseCase,
         updateTaskStatusUseCase: UpdateTaskStatusUseCase,
         deleteTaskUseCase: DeleteTaskUseCase
     ) {
-        self.fetchTasksUseCase = fetchTasksUseCase
+        self.fetchTaskListsUseCase = fetchTaskListsUseCase
+        self.addTaskListUseCase = addTaskListUseCase
+        self.deleteTaskListUseCase = deleteTaskListUseCase
         self.addTaskUseCase = addTaskUseCase
         self.updateTaskStatusUseCase = updateTaskStatusUseCase
         self.deleteTaskUseCase = deleteTaskUseCase
     }
 
     @MainActor
-    public func loadTasks() {
+    public func loadLists() {
         do {
-            tasks = try fetchTasksUseCase.execute()
+            lists = try fetchTaskListsUseCase.execute()
             errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    @MainActor
+    public func addList(name: String, category: TaskCategory) {
+        let list = TaskList(name: name, category: category, tasks: [])
+        do {
+            try addTaskListUseCase.execute(list: list)
+            loadLists()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    @MainActor
+    public func deleteLists(at offsets: IndexSet) {
+        let identifiers = offsets.compactMap { index in
+            lists.indices.contains(index) ? lists[index].id : nil
+        }
+
+        guard !identifiers.isEmpty else { return }
+
+        do {
+            for identifier in identifiers {
+                try deleteTaskListUseCase.execute(identifier: identifier)
+            }
+            loadLists()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    @MainActor
+    public func delete(list: TaskList) {
+        do {
+            try deleteTaskListUseCase.execute(identifier: list.id)
+            loadLists()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    @MainActor
+    public func addTask(
+        to list: TaskList,
+        iconName: String,
+        title: String,
+        details: String,
+        dueDate: Date,
+        category: TaskCategory
+    ) {
+        let task = Task(
+            iconName: iconName,
+            title: title,
+            details: details,
+            dueDate: dueDate,
+            status: .pending,
+            listID: list.id,
+            listName: list.name,
+            category: category
+        )
+
+        do {
+            try addTaskUseCase.execute(task: task)
+            loadLists()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -38,39 +111,26 @@ public final class TaskListViewModel: ObservableObject {
         updatedTask.status = task.status == .completed ? .pending : .completed
         do {
             try updateTaskStatusUseCase.execute(task: updatedTask)
-            loadTasks()
+            loadLists()
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
     @MainActor
-    public func addTask(
-        iconName: String,
-        title: String,
-        details: String,
-        dueDate: Date
-    ) {
-        let task = Task(
-            iconName: iconName,
-            title: title,
-            details: details,
-            dueDate: dueDate,
-            status: .pending
-        )
-
+    public func deleteTask(_ task: Task) {
         do {
-            try addTaskUseCase.execute(task: task)
-            loadTasks()
+            try deleteTaskUseCase.execute(identifier: task.id)
+            loadLists()
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
     @MainActor
-    public func deleteTasks(at offsets: IndexSet) {
+    public func deleteTasks(in list: TaskList, at offsets: IndexSet) {
         let identifiers = offsets.compactMap { index in
-            tasks.indices.contains(index) ? tasks[index].id : nil
+            list.tasks.indices.contains(index) ? list.tasks[index].id : nil
         }
 
         guard !identifiers.isEmpty else { return }
@@ -79,17 +139,7 @@ public final class TaskListViewModel: ObservableObject {
             for identifier in identifiers {
                 try deleteTaskUseCase.execute(identifier: identifier)
             }
-            loadTasks()
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-
-    @MainActor
-    public func delete(task: Task) {
-        do {
-            try deleteTaskUseCase.execute(identifier: task.id)
-            loadTasks()
+            loadLists()
         } catch {
             errorMessage = error.localizedDescription
         }

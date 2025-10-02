@@ -1,7 +1,7 @@
 import Foundation
 
-/// Removes a task from its list in the repository.
-public struct DeleteTaskUseCase {
+/// Removes a task list from the repository.
+public struct DeleteTaskListUseCase {
     private let repository: TaskListRepository
 
     public init(repository: TaskListRepository) {
@@ -9,6 +9,6 @@ public struct DeleteTaskUseCase {
     }
 
     public func execute(identifier: UUID) throws {
-        try repository.deleteTask(identifier: identifier)
+        try repository.deleteList(identifier: identifier)
     }
 }

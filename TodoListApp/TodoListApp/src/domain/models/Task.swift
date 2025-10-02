@@ -8,6 +8,9 @@ public struct Task: Identifiable, Equatable, Codable {
     public var details: String
     public var dueDate: Date
     public var status: TaskStatus
+    public var listID: UUID
+    public var listName: String
+    public var category: TaskCategory
 
     public init(
         id: UUID = UUID(),
@@ -15,7 +18,10 @@ public struct Task: Identifiable, Equatable, Codable {
         title: String,
         details: String,
         dueDate: Date,
-        status: TaskStatus
+        status: TaskStatus,
+        listID: UUID,
+        listName: String,
+        category: TaskCategory
     ) {
         self.id = id
         self.iconName = iconName
@@ -23,5 +29,8 @@ public struct Task: Identifiable, Equatable, Codable {
         self.details = details
         self.dueDate = dueDate
         self.status = status
+        self.listID = listID
+        self.listName = listName
+        self.category = category
     }
 }

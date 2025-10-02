@@ -24,18 +24,20 @@ struct TodoListAppApp: App {
 
 private final class AppDependencies {
     let persistenceController: PersistenceController
-    private let repository: TaskRepository
+    private let repository: TaskListRepository
 
     init() {
         persistenceController = PersistenceController()
-        let dataSource = CoreDataTaskDataSource(context: persistenceController.container.viewContext)
-        repository = TaskRepositoryImpl(dataSource: dataSource)
+        let dataSource = CoreDataTaskListDataSource(context: persistenceController.container.viewContext)
+        repository = TaskListRepositoryImpl(dataSource: dataSource)
     }
 
     func makeTaskListViewModel() -> TaskListViewModel {
         TaskListViewModel(
-            fetchTasksUseCase: FetchTasksUseCase(repository: repository),
-            addTaskUseCase: AddTaskUseCase(repository: repository),
+            fetchTaskListsUseCase: FetchTaskListsUseCase(repository: repository),
+            addTaskListUseCase: AddTaskListUseCase(repository: repository),
+            deleteTaskListUseCase: DeleteTaskListUseCase(repository: repository),
+            addTaskUseCase: AddTaskToListUseCase(repository: repository),
             updateTaskStatusUseCase: UpdateTaskStatusUseCase(repository: repository),
             deleteTaskUseCase: DeleteTaskUseCase(repository: repository)
         )

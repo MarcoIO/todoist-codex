@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B10000152000000000000001"
+               BuildableName = "TodoListAppTests.xctest"
+               BlueprintName = "TodoListAppTests"
+               ReferencedContainer = "container:TodoListApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A10000502000000000000001"
+            BuildableName = "TodoListApp"
+            BlueprintName = "TodoListApp"
+            ReferencedContainer = "container:TodoListApp.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -40,10 +59,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         FilePath = "/Users/marcoiniguezollero/Library/Developer/Xcode/DerivedData/TodoListApp-cufqzkogffzqqweplgtstxdzuzch/Build/Products/Debug-iphonesimulator/TodoListApp.app">
-      </PathRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A10000502000000000000001"
+            BuildableName = "TodoListApp"
+            BlueprintName = "TodoListApp"
+            ReferencedContainer = "container:TodoListApp.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"

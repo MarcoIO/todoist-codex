@@ -7,8 +7,11 @@ struct TaskFormView: View {
     @State private var title: String = ""
     @State private var details: String = ""
     @State private var dueDate: Date = Date()
+    @State private var selectedCategory: TaskCategory = .work
 
-    let onSave: (String, String, String, Date) -> Void
+    let listName: String
+    let categories: [TaskCategory]
+    let onSave: (String, String, String, Date, TaskCategory) -> Void
 
     private let availableIcons: [String] = [
         "list.bullet.circle",
@@ -22,6 +25,11 @@ struct TaskFormView: View {
     var body: some View {
         NavigationView {
             Form {
+                Section(header: Text("form_list")) {
+                    Label(listName, systemImage: "folder")
+                        .foregroundColor(.primary)
+                }
+
                 Section(header: Text("form_icon")) {
                     Picker("form_icon", selection: $iconName) {
                         ForEach(availableIcons, id: \.self) { icon in
@@ -32,6 +40,19 @@ struct TaskFormView: View {
                             .tag(icon)
                         }
                     }
+                }
+
+                Section(header: Text("form_category")) {
+                    Picker("form_category", selection: $selectedCategory) {
+                        ForEach(categories) { category in
+                            Label(
+                                title: { Text(category.localizationKey) },
+                                icon: { Image(systemName: category.iconName) }
+                            )
+                            .tag(category)
+                        }
+                    }
+                    .pickerStyle(.inline)
                 }
 
                 Section(header: Text("form_title")) {
@@ -71,7 +92,7 @@ struct TaskFormView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("action_save") {
-                        onSave(iconName, title, details, dueDate)
+                        onSave(iconName, title, details, dueDate, selectedCategory)
                         presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -79,6 +100,9 @@ struct TaskFormView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            selectedCategory = categories.first ?? .work
+        }
     }
 
     private func iconTitle(for icon: String) -> String {
@@ -103,6 +127,6 @@ struct TaskFormView: View {
 
 struct TaskFormView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskFormView { _, _, _, _ in }
+        TaskFormView(listName: "Personal", categories: TaskCategory.allCases) { _, _, _, _, _ in }
     }
 }

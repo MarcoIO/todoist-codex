@@ -27,7 +27,14 @@
 		A100001F2000000000000001 /* TaskRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001E2000000000000001 /* TaskRepositoryImpl.swift */; };
 		A10000252000000000000001 /* TaskDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000242000000000000001 /* TaskDataModel.swift */; };
 		A10000272000000000000001 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000262000000000000001 /* PersistenceController.swift */; };
-		A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282000000000000001 /* CoreDataTaskDataSource.swift */; };
+                B10000022000000000000001 /* CoreDataTaskListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000012000000000000001 /* CoreDataTaskListDataSource.swift */; };
+                B10000042000000000000001 /* TaskListDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000032000000000000001 /* TaskListDataModel.swift */; };
+                B10000062000000000000001 /* TaskCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000052000000000000001 /* TaskCategory.swift */; };
+                B10000082000000000000001 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000072000000000000001 /* TaskList.swift */; };
+                B100000A2000000000000001 /* AddTaskListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000092000000000000001 /* AddTaskListUseCase.swift */; };
+                B100000C2000000000000001 /* DeleteTaskListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000B2000000000000001 /* DeleteTaskListUseCase.swift */; };
+                B100000E2000000000000001 /* TaskListFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000D2000000000000001 /* TaskListFormView.swift */; };
+                B10000102000000000000001 /* TaskListRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100000F2000000000000001 /* TaskListRepositoryTests.swift */; };
 		A100002B2000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100002A2000000000000001 /* Assets.xcassets */; };
 		A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A100002E2000000000000001 /* TaskModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -54,7 +61,15 @@
 		A100001E2000000000000001 /* TaskRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepositoryImpl.swift; sourceTree = "<group>"; };
 		A10000242000000000000001 /* TaskDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataModel.swift; sourceTree = "<group>"; };
 		A10000262000000000000001 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		A10000282000000000000001 /* CoreDataTaskDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTaskDataSource.swift; sourceTree = "<group>"; };
+                B10000012000000000000001 /* CoreDataTaskListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTaskListDataSource.swift; sourceTree = "<group>"; };
+                B10000032000000000000001 /* TaskListDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListDataModel.swift; sourceTree = "<group>"; };
+                B10000052000000000000001 /* TaskCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
+                B10000072000000000000001 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
+                B10000092000000000000001 /* AddTaskListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskListUseCase.swift; sourceTree = "<group>"; };
+                B100000B2000000000000001 /* DeleteTaskListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTaskListUseCase.swift; sourceTree = "<group>"; };
+                B100000D2000000000000001 /* TaskListFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListFormView.swift; sourceTree = "<group>"; };
+                B100000F2000000000000001 /* TaskListRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRepositoryTests.swift; sourceTree = "<group>"; };
+                B10000112000000000000001 /* TodoListAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoListAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A100002A2000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A100002F2000000000000001 /* TaskModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModel.xcdatamodel; sourceTree = "<group>"; };
 		A10000302000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,26 +84,36 @@
 			path = Localizations;
 			sourceTree = "<group>";
 		};
-		A10000402000000000000001 = {
-			isa = PBXGroup;
-			children = (
-				A10000412000000000000001 /* TodoListApp */,
-			);
-			sourceTree = "<group>";
-		};
-		A10000412000000000000001 /* TodoListApp */ = {
-			isa = PBXGroup;
-			children = (
-				A10000302000000000000001 /* Info.plist */,
-				A10000422000000000000001 /* Resources */,
-				A10000432000000000000001 /* src/presentation */,
-				A10000442000000000000001 /* src/domain */,
-				A10000452000000000000001 /* src/data */,
-				A100002E2000000000000001 /* TaskModel.xcdatamodeld */,
-			);
-			path = TodoListApp;
-			sourceTree = "<group>";
-		};
+                A10000402000000000000001 = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000412000000000000001 /* TodoListApp */,
+                                B10000112000000000000001 /* TodoListAppTests.xctest */,
+                        );
+                        sourceTree = "<group>";
+                };
+                A10000412000000000000001 /* TodoListApp */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000302000000000000001 /* Info.plist */,
+                                A10000422000000000000001 /* Resources */,
+                                A10000432000000000000001 /* src/presentation */,
+                                A10000442000000000000001 /* src/domain */,
+                                A10000452000000000000001 /* src/data */,
+                                A100002E2000000000000001 /* TaskModel.xcdatamodeld */,
+                                B10000192000000000000001 /* TodoListAppTests */,
+                        );
+                        path = TodoListApp;
+                        sourceTree = "<group>";
+                };
+                B10000192000000000000001 /* TodoListAppTests */ = {
+                        isa = PBXGroup;
+                        children = (
+                                B100000F2000000000000001 /* TaskListRepositoryTests.swift */,
+                        );
+                        path = TodoListAppTests;
+                        sourceTree = "<group>";
+                };
 		A10000422000000000000001 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,26 +171,29 @@
 			path = viewmodels;
 			sourceTree = "<group>";
 		};
-		A10000482000000000000001 /* views */ = {
-			isa = PBXGroup;
-			children = (
-				A10000002000000000000001 /* TaskListView.swift */,
-				A10000022000000000000001 /* TaskDetailView.swift */,
-				A10000042000000000000001 /* TaskRowView.swift */,
-				A10000062000000000000001 /* TaskFormView.swift */,
-			);
-			path = views;
-			sourceTree = "<group>";
-		};
-		A10000492000000000000001 /* models */ = {
-			isa = PBXGroup;
-			children = (
-				A10000102000000000000001 /* TaskStatus.swift */,
-				A10000122000000000000001 /* Task.swift */,
-			);
-			path = models;
-			sourceTree = "<group>";
-		};
+                A10000482000000000000001 /* views */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000002000000000000001 /* TaskListView.swift */,
+                                A10000022000000000000001 /* TaskDetailView.swift */,
+                                A10000042000000000000001 /* TaskRowView.swift */,
+                                A10000062000000000000001 /* TaskFormView.swift */,
+                                B100000D2000000000000001 /* TaskListFormView.swift */,
+                        );
+                        path = views;
+                        sourceTree = "<group>";
+                };
+                A10000492000000000000001 /* models */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000102000000000000001 /* TaskStatus.swift */,
+                                A10000122000000000000001 /* Task.swift */,
+                                B10000052000000000000001 /* TaskCategory.swift */,
+                                B10000072000000000000001 /* TaskList.swift */,
+                        );
+                        path = models;
+                        sourceTree = "<group>";
+                };
 		A100004A2000000000000001 /* repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,71 +202,116 @@
 			path = repositories;
 			sourceTree = "<group>";
 		};
-		A100004B2000000000000001 /* usecases */ = {
-			isa = PBXGroup;
-			children = (
-				A10000162000000000000001 /* FetchTasksUseCase.swift */,
-				A10000182000000000000001 /* GetTaskByIDUseCase.swift */,
-				A100001A2000000000000001 /* AddTaskUseCase.swift */,
-				A100001C2000000000000001 /* UpdateTaskStatusUseCase.swift */,
-				7669B43A71CB49D2B98BA1913776AD96 /* DeleteTaskUseCase.swift */,
-			);
-			path = usecases;
-			sourceTree = "<group>";
-		};
-		A100004C2000000000000001 /* entities */ = {
-			isa = PBXGroup;
-			children = (
-				A10000242000000000000001 /* TaskDataModel.swift */,
-			);
-			path = entities;
-			sourceTree = "<group>";
-		};
-		A100004D2000000000000001 /* datasources */ = {
-			isa = PBXGroup;
-			children = (
-				A10000262000000000000001 /* PersistenceController.swift */,
-				A10000282000000000000001 /* CoreDataTaskDataSource.swift */,
-			);
-			path = datasources;
-			sourceTree = "<group>";
-		};
-		A100004E2000000000000001 /* repositories */ = {
-			isa = PBXGroup;
-			children = (
-				A100001E2000000000000001 /* TaskRepositoryImpl.swift */,
-			);
-			path = repositories;
-			sourceTree = "<group>";
-		};
+                A100004B2000000000000001 /* usecases */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000162000000000000001 /* FetchTasksUseCase.swift */,
+                                A10000182000000000000001 /* GetTaskByIDUseCase.swift */,
+                                A100001A2000000000000001 /* AddTaskUseCase.swift */,
+                                B10000092000000000000001 /* AddTaskListUseCase.swift */,
+                                A100001C2000000000000001 /* UpdateTaskStatusUseCase.swift */,
+                                7669B43A71CB49D2B98BA1913776AD96 /* DeleteTaskUseCase.swift */,
+                                B100000B2000000000000001 /* DeleteTaskListUseCase.swift */,
+                        );
+                        path = usecases;
+                        sourceTree = "<group>";
+                };
+                A100004C2000000000000001 /* entities */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000242000000000000001 /* TaskDataModel.swift */,
+                                B10000032000000000000001 /* TaskListDataModel.swift */,
+                        );
+                        path = entities;
+                        sourceTree = "<group>";
+                };
+                A100004D2000000000000001 /* datasources */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A10000262000000000000001 /* PersistenceController.swift */,
+                                B10000012000000000000001 /* CoreDataTaskListDataSource.swift */,
+                        );
+                        path = datasources;
+                        sourceTree = "<group>";
+                };
+                A100004E2000000000000001 /* repositories */ = {
+                        isa = PBXGroup;
+                        children = (
+                                A100001E2000000000000001 /* TaskRepositoryImpl.swift */,
+                        );
+                        path = repositories;
+                        sourceTree = "<group>";
+                };
 /* End PBXGroup section */
 
+/* Begin PBXContainerItemProxy section */
+                B100001B2000000000000001 /* PBXContainerItemProxy */ = {
+                        isa = PBXContainerItemProxy;
+                        containerPortal = A10000532000000000000001 /* Project object */;
+                        proxyType = 1;
+                        remoteGlobalIDString = A10000502000000000000001 /* TodoListApp */;
+                        remoteInfo = TodoListApp;
+                };
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXNativeTarget section */
-		A10000502000000000000001 /* TodoListApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A100005B2000000000000001 /* Build configuration list for PBXNativeTarget "TodoListApp" */;
-			buildPhases = (
-				A10000512000000000000001 /* Sources */,
-				A10000522000000000000001 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TodoListApp;
-			productName = TodoListApp;
-			productType = "com.apple.product-type.application";
-		};
+                A10000502000000000000001 /* TodoListApp */ = {
+                        isa = PBXNativeTarget;
+                        buildConfigurationList = A100005B2000000000000001 /* Build configuration list for PBXNativeTarget "TodoListApp" */;
+                        buildPhases = (
+                                A10000512000000000000001 /* Sources */,
+                                A10000522000000000000001 /* Resources */,
+                        );
+                        buildRules = (
+                        );
+                        dependencies = (
+                        );
+                        name = TodoListApp;
+                        productName = TodoListApp;
+                        productType = "com.apple.product-type.application";
+                };
+                B10000152000000000000001 /* TodoListAppTests */ = {
+                        isa = PBXNativeTarget;
+                        buildConfigurationList = B10000182000000000000001 /* Build configuration list for PBXNativeTarget "TodoListAppTests" */;
+                        buildPhases = (
+                                B10000122000000000000001 /* Sources */,
+                                B10000132000000000000001 /* Frameworks */,
+                                B10000142000000000000001 /* Resources */,
+                        );
+                        buildRules = (
+                        );
+                        dependencies = (
+                                B100001A2000000000000001 /* PBXTargetDependency */,
+                        );
+                        name = TodoListAppTests;
+                        productName = TodoListAppTests;
+                        productReference = B10000112000000000000001 /* TodoListAppTests.xctest */;
+                        productType = "com.apple.product-type.bundle.unit-test";
+                };
 /* End PBXNativeTarget section */
 
+/* Begin PBXTargetDependency section */
+                B100001A2000000000000001 /* PBXTargetDependency */ = {
+                        isa = PBXTargetDependency;
+                        target = A10000502000000000000001 /* TodoListApp */;
+                        targetProxy = B100001B2000000000000001 /* PBXContainerItemProxy */;
+                };
+/* End PBXTargetDependency section */
+
 /* Begin PBXProject section */
-		A10000532000000000000001 /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
-				ORGANIZATIONNAME = "Todoist Codex";
-			};
+                A10000532000000000000001 /* Project object */ = {
+                        isa = PBXProject;
+                        attributes = {
+                                LastSwiftUpdateCheck = 1420;
+                                LastUpgradeCheck = 1420;
+                                ORGANIZATIONNAME = "Todoist Codex";
+                                TargetAttributes = {
+                                        B10000152000000000000001 = {
+                                                CreatedOnToolsVersion = 14.2;
+                                                TestTargetID = A10000502000000000000001;
+                                        };
+                                };
+                        };
 			buildConfigurationList = A10000582000000000000001 /* Build configuration list for PBXProject "TodoListApp" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
@@ -252,53 +325,85 @@
 			productRefGroup = A10000402000000000000001;
 			projectDirPath = "";
 			projectRoot = "";
-			targets = (
-				A10000502000000000000001 /* TodoListApp */,
-			);
-		};
+                        targets = (
+                                A10000502000000000000001 /* TodoListApp */,
+                                B10000152000000000000001 /* TodoListAppTests */,
+                        );
+                };
 /* End PBXProject section */
 
+/* Begin PBXFrameworksBuildPhase section */
+                B10000132000000000000001 /* Frameworks */ = {
+                        isa = PBXFrameworksBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXResourcesBuildPhase section */
-		A10000522000000000000001 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+                A10000522000000000000001 /* Resources */ = {
+                        isa = PBXResourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
 				A100002B2000000000000001 /* Assets.xcassets in Resources */,
 				662641552E8EC0D700EB55CB /* Localizable.strings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+                B10000142000000000000001 /* Resources */ = {
+                        isa = PBXResourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A10000512000000000000001 /* Sources */ = {
+                A10000512000000000000001 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A10000012000000000000001 /* TaskListView.swift in Sources */,
 				A10000032000000000000001 /* TaskDetailView.swift in Sources */,
-				A10000052000000000000001 /* TaskRowView.swift in Sources */,
-				A10000072000000000000001 /* TaskFormView.swift in Sources */,
-				A10000092000000000000001 /* TaskListViewModel.swift in Sources */,
-				A100000B2000000000000001 /* TaskDetailViewModel.swift in Sources */,
-				A100000D2000000000000001 /* LanguageController.swift in Sources */,
-				A100000F2000000000000001 /* TodoListAppApp.swift in Sources */,
-				A10000112000000000000001 /* TaskStatus.swift in Sources */,
-				A10000132000000000000001 /* Task.swift in Sources */,
-				A10000152000000000000001 /* TaskRepository.swift in Sources */,
-				A10000172000000000000001 /* FetchTasksUseCase.swift in Sources */,
-				A10000192000000000000001 /* GetTaskByIDUseCase.swift in Sources */,
-				A100001B2000000000000001 /* AddTaskUseCase.swift in Sources */,
-				A100001D2000000000000001 /* UpdateTaskStatusUseCase.swift in Sources */,
-				6F4251F89B1545F5A052964D1BA0481D /* DeleteTaskUseCase.swift in Sources */,
-				A100001F2000000000000001 /* TaskRepositoryImpl.swift in Sources */,
-				A10000252000000000000001 /* TaskDataModel.swift in Sources */,
-				A10000272000000000000001 /* PersistenceController.swift in Sources */,
-				A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */,
-				A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+                                A10000052000000000000001 /* TaskRowView.swift in Sources */,
+                                A10000072000000000000001 /* TaskFormView.swift in Sources */,
+                                B100000E2000000000000001 /* TaskListFormView.swift in Sources */,
+                                A10000092000000000000001 /* TaskListViewModel.swift in Sources */,
+                                A100000B2000000000000001 /* TaskDetailViewModel.swift in Sources */,
+                                A100000D2000000000000001 /* LanguageController.swift in Sources */,
+                                A100000F2000000000000001 /* TodoListAppApp.swift in Sources */,
+                                A10000112000000000000001 /* TaskStatus.swift in Sources */,
+                                A10000132000000000000001 /* Task.swift in Sources */,
+                                B10000062000000000000001 /* TaskCategory.swift in Sources */,
+                                B10000082000000000000001 /* TaskList.swift in Sources */,
+                                A10000152000000000000001 /* TaskRepository.swift in Sources */,
+                                A10000172000000000000001 /* FetchTasksUseCase.swift in Sources */,
+                                A10000192000000000000001 /* GetTaskByIDUseCase.swift in Sources */,
+                                A100001B2000000000000001 /* AddTaskUseCase.swift in Sources */,
+                                B100000A2000000000000001 /* AddTaskListUseCase.swift in Sources */,
+                                A100001D2000000000000001 /* UpdateTaskStatusUseCase.swift in Sources */,
+                                6F4251F89B1545F5A052964D1BA0481D /* DeleteTaskUseCase.swift in Sources */,
+                                B100000C2000000000000001 /* DeleteTaskListUseCase.swift in Sources */,
+                                A100001F2000000000000001 /* TaskRepositoryImpl.swift in Sources */,
+                                A10000252000000000000001 /* TaskDataModel.swift in Sources */,
+                                B10000042000000000000001 /* TaskListDataModel.swift in Sources */,
+                                A10000272000000000000001 /* PersistenceController.swift in Sources */,
+                                B10000022000000000000001 /* CoreDataTaskListDataSource.swift in Sources */,
+                                A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
+                B10000122000000000000001 /* Sources */ = {
+                        isa = PBXSourcesBuildPhase;
+                        buildActionMask = 2147483647;
+                        files = (
+                                B10000102000000000000001 /* TaskListRepositoryTests.swift in Sources */,
+                        );
+                        runOnlyForDeploymentPostprocessing = 0;
+                };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -369,10 +474,10 @@
 			};
 			name = Debug;
 		};
-		A100005A2000000000000001 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+                A100005A2000000000000001 /* Release */ = {
+                        isa = XCBuildConfiguration;
+                        buildSettings = {
+                                ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -452,14 +557,54 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.todoistcodex.todoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                        };
+                        name = Release;
+                };
+                B10000162000000000000001 /* Debug */ = {
+                        isa = XCBuildConfiguration;
+                        buildSettings = {
+                                CODE_SIGN_STYLE = Automatic;
+                                DEVELOPMENT_TEAM = "";
+                                GENERATE_INFOPLIST_FILE = YES;
+                                IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+                                LD_RUNPATH_SEARCH_PATHS = (
+                                        "$(inherited)",
+                                        "@executable_path/Frameworks",
+                                        "@loader_path/Frameworks",
+                                );
+                                PRODUCT_BUNDLE_IDENTIFIER = com.todoistcodex.todoappTests;
+                                PRODUCT_NAME = "$(TARGET_NAME)";
+                                SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+                                SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+                                SWIFT_VERSION = 5.0;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                            };
+                        name = Debug;
+                };
+                B10000172000000000000001 /* Release */ = {
+                        isa = XCBuildConfiguration;
+                        buildSettings = {
+                                CODE_SIGN_STYLE = Automatic;
+                                DEVELOPMENT_TEAM = "";
+                                GENERATE_INFOPLIST_FILE = YES;
+                                IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+                                LD_RUNPATH_SEARCH_PATHS = (
+                                        "$(inherited)",
+                                        "@executable_path/Frameworks",
+                                        "@loader_path/Frameworks",
+                                );
+                                PRODUCT_BUNDLE_IDENTIFIER = com.todoistcodex.todoappTests;
+                                PRODUCT_NAME = "$(TARGET_NAME)";
+                                SWIFT_VERSION = 5.0;
+                                TARGETED_DEVICE_FAMILY = "1,2";
+                        };
+                        name = Release;
+                };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A10000582000000000000001 /* Build configuration list for PBXProject "TodoListApp" */ = {
+                A10000582000000000000001 /* Build configuration list for PBXProject "TodoListApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A10000592000000000000001 /* Debug */,
@@ -468,15 +613,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A100005B2000000000000001 /* Build configuration list for PBXNativeTarget "TodoListApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A100005C2000000000000001 /* Debug */,
-				A100005D2000000000000001 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
+                A100005B2000000000000001 /* Build configuration list for PBXNativeTarget "TodoListApp" */ = {
+                        isa = XCConfigurationList;
+                        buildConfigurations = (
+                                A100005C2000000000000001 /* Debug */,
+                                A100005D2000000000000001 /* Release */,
+                        );
+                        defaultConfigurationIsVisible = 0;
+                        defaultConfigurationName = Release;
+                };
+                B10000182000000000000001 /* Build configuration list for PBXNativeTarget "TodoListAppTests" */ = {
+                        isa = XCConfigurationList;
+                        buildConfigurations = (
+                                B10000162000000000000001 /* Debug */,
+                                B10000172000000000000001 /* Release */,
+                        );
+                        defaultConfigurationIsVisible = 0;
+                        defaultConfigurationName = Release;
+                };
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
