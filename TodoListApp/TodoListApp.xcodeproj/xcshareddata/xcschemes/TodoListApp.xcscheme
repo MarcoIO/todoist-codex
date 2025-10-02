@@ -40,8 +40,11 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <PathRunnable
+         runnableDebuggingMode = "0"
+         FilePath = "/Users/marcoiniguezollero/Library/Developer/Xcode/DerivedData/TodoListApp-cufqzkogffzqqweplgtstxdzuzch/Build/Products/Debug-iphonesimulator/TodoListApp.app">
+      </PathRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A10000502000000000000001"
@@ -49,7 +52,7 @@
             BlueprintName = "TodoListApp"
             ReferencedContainer = "container:TodoListApp.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
