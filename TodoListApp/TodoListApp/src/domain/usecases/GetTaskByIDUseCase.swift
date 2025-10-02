@@ -2,9 +2,9 @@ import Foundation
 
 /// Retrieves a task by its identifier.
 public struct GetTaskByIDUseCase {
-    private let repository: TaskRepository
+    private let repository: TaskListRepository
 
-    public init(repository: TaskRepository) {
+    public init(repository: TaskListRepository) {
         self.repository = repository
     }
 

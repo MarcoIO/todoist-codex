@@ -1,14 +1,14 @@
 import Foundation
 
-/// Updates an existing task.
-public struct UpdateTaskStatusUseCase {
+/// Persists a new task list.
+public struct AddTaskListUseCase {
     private let repository: TaskListRepository
 
     public init(repository: TaskListRepository) {
         self.repository = repository
     }
 
-    public func execute(task: Task) throws {
-        try repository.update(task: task)
+    public func execute(list: TaskList) throws {
+        try repository.add(list: list)
     }
 }

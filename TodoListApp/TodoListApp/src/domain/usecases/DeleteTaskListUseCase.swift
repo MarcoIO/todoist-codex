@@ -1,7 +1,7 @@
 import Foundation
 
-/// Removes a task from persistence.
-public struct DeleteTaskUseCase {
+/// Deletes a task list and all of its tasks.
+public struct DeleteTaskListUseCase {
     private let repository: TaskListRepository
 
     public init(repository: TaskListRepository) {
@@ -9,6 +9,6 @@ public struct DeleteTaskUseCase {
     }
 
     public func execute(identifier: UUID) throws {
-        try repository.deleteTask(identifier: identifier)
+        try repository.deleteList(identifier: identifier)
     }
 }
