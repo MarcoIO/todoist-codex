@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TaskFormView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) private var presentationMode
 
     @State private var iconName: String = "list.bullet.circle"
     @State private var title: String = ""
@@ -20,10 +20,10 @@ struct TaskFormView: View {
     ]
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 Section(header: Text("form_icon")) {
-                    Picker(selection: $iconName) {
+                    Picker("form_icon", selection: $iconName) {
                         ForEach(availableIcons, id: \.self) { icon in
                             Label(
                                 title: { Text(iconTitle(for: icon)) },
@@ -31,8 +31,6 @@ struct TaskFormView: View {
                             )
                             .tag(icon)
                         }
-                    } label: {
-                        Text("form_icon")
                     }
                 }
 
@@ -41,8 +39,17 @@ struct TaskFormView: View {
                 }
 
                 Section(header: Text("form_description")) {
-                    TextField(LocalizedStringKey("form_description_placeholder"), text: $details, axis: .vertical)
-                        .lineLimit(3, reservesSpace: true)
+                    ZStack(alignment: .topLeading) {
+                        if details.isEmpty {
+                            Text("form_description_placeholder")
+                                .foregroundColor(.secondary)
+                                .padding(.top, 8)
+                                .allowsHitTesting(false)
+                        }
+
+                        TextEditor(text: $details)
+                            .frame(minHeight: 120)
+                    }
                 }
 
                 Section(header: Text("form_due_date")) {
@@ -57,18 +64,21 @@ struct TaskFormView: View {
             .navigationTitle(Text("form_add_task"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("action_cancel") { dismiss() }
+                    Button("action_cancel") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("action_save") {
                         onSave(iconName, title, details, dueDate)
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     private func iconTitle(for icon: String) -> String {

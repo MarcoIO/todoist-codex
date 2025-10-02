@@ -17,7 +17,7 @@ struct TaskListView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Group {
                 if viewModel.tasks.isEmpty {
                     VStack(spacing: 16) {
@@ -39,30 +39,29 @@ struct TaskListView: View {
                                 detailBuilder(task)
                             } label: {
                                 TaskRowView(task: task)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                Button {
-                                    viewModel.toggleStatus(for: task)
-                                } label: {
-                                    Label(
-                                        task.status == .completed ? "action_mark_pending" : "action_mark_completed",
-                                        systemImage: task.status == .completed ? "arrow.uturn.left" : "checkmark"
-                                    )
-                                }
-                                .tint(task.status == .completed ? .orange : .green)
+                                    .contextMenu {
+                                        Button(action: {
+                                            viewModel.toggleStatus(for: task)
+                                        }) {
+                                            Label(
+                                                task.status == .completed ? "action_mark_pending" : "action_mark_completed",
+                                                systemImage: task.status == .completed ? "arrow.uturn.left" : "checkmark"
+                                            )
+                                        }
 
-                                Button(role: .destructive) {
-                                    viewModel.delete(task: task)
-                                } label: {
-                                    Label("action_delete", systemImage: "trash")
-                                }
+                                        Button(action: {
+                                            viewModel.delete(task: task)
+                                        }) {
+                                            Label("action_delete", systemImage: "trash")
+                                        }
+                                    }
                             }
                         }
                         .onDelete { offsets in
                             viewModel.deleteTasks(at: offsets)
                         }
                     }
-                    .listStyle(.insetGrouped)
+                    .listStyle(InsetGroupedListStyle())
                 }
             }
             .navigationTitle(Text("list_title"))
@@ -117,6 +116,7 @@ struct TaskListView: View {
                 )
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
