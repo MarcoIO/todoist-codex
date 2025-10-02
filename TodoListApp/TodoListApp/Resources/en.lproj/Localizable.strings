@@ -1,7 +1,0 @@
-"list.title" = "My Tasks";
-"list.empty" = "No tasks yet";
-"detail.title" = "Task details";
-"detail.toggle" = "Toggle completion";
-"status.pending" = "Pending";
-"status.inProgress" = "In progress";
-"status.completed" = "Completed";

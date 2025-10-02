@@ -1,7 +1,0 @@
-"list.title" = "Mis tareas";
-"list.empty" = "Aún no hay tareas";
-"detail.title" = "Detalle de la tarea";
-"detail.toggle" = "Cambiar estado";
-"status.pending" = "Pendiente";
-"status.inProgress" = "En progreso";
-"status.completed" = "Completada";
