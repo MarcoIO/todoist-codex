@@ -163,6 +163,7 @@ struct TaskListView: View {
             }
             .onAppear {
                 viewModel.loadLists()
+                selectedListForTask = viewModel.lists.first
             }
             .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
             .alert(isPresented: Binding(
