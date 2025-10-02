@@ -14,7 +14,7 @@ struct TaskRowView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 18) {
             HStack(alignment: .firstTextBaseline) {
                 Text(task.title)
                     .font(.headline)
@@ -32,10 +32,14 @@ struct TaskRowView: View {
                     .clipShape(Capsule())
             }
 
-            Text(task.details)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .lineLimit(2)
+            VStack(alignment: .leading, spacing: 6) {
+                fieldLabel("task_row_description_label")
+
+                Text(task.details)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+            }
 
             HStack {
                 Text(task.listName)
@@ -44,20 +48,29 @@ struct TaskRowView: View {
 
                 Spacer()
 
-                Text(dateFormatter.string(from: task.dueDate))
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                VStack(alignment: .trailing, spacing: 6) {
+                    fieldLabel("task_row_date_label")
+                        .multilineTextAlignment(.trailing)
+
+                    Text(dateFormatter.string(from: task.dueDate))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
-            Text(LocalizedStringKey(task.category.localizationKey))
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundColor(.accentColor)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 4)
-                .background(Color.accentColor.opacity(0.12))
-                .clipShape(Capsule())
-                .accessibilityLabel(Text(LocalizedStringKey(task.category.localizationKey)))
+            VStack(alignment: .leading, spacing: 6) {
+                fieldLabel("task_row_category_label")
+
+                Text(LocalizedStringKey(task.category.localizationKey))
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.accentColor)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(Color.accentColor.opacity(0.12))
+                    .clipShape(Capsule())
+                    .accessibilityLabel(Text(LocalizedStringKey(task.category.localizationKey)))
+            }
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 24)
@@ -66,6 +79,12 @@ struct TaskRowView: View {
                 .fill(Color(.secondarySystemBackground))
         )
         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
+    }
+
+    private func fieldLabel(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(.caption)
+            .foregroundColor(.secondary)
     }
 }
 

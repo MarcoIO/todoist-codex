@@ -35,6 +35,9 @@
 "action_add_task" = "Add task";
 "action_delete" = "Delete";
 "action_delete_list" = "Delete list";
+"task_row_description_label" = "Description";
+"task_row_date_label" = "Date";
+"task_row_category_label" = "Category";
 "language_picker" = "Language";
 "language_menu" = "Language";
 "action_mark_pending" = "Mark as pending";
