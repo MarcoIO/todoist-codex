@@ -30,7 +30,8 @@
 		A10000252000000000000001 /* TaskDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000242000000000000001 /* TaskDataModel.swift */; };
 		A10000272000000000000001 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000262000000000000001 /* PersistenceController.swift */; };
 		A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000282000000000000001 /* CoreDataTaskDataSource.swift */; };
-		A100002B2000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100002A2000000000000001 /* Assets.xcassets */; };
+                A100002B2000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100002A2000000000000001 /* Assets.xcassets */; };
+                A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A100002E2000000000000001 /* TaskModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +60,7 @@
 		A10000262000000000000001 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		A10000282000000000000001 /* CoreDataTaskDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTaskDataSource.swift; sourceTree = "<group>"; };
 		A100002A2000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A100002E2000000000000001 /* TaskModel.xcdatamodeld */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodeld; path = TaskModel.xcdatamodeld; sourceTree = "<group>"; };
+                A100002F2000000000000001 /* TaskModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModel.xcdatamodel; sourceTree = "<group>"; };
 		A10000302000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,8 +219,21 @@
 		};
 /* End PBXGroup section */
 
+/* Begin XCVersionGroup section */
+                A100002E2000000000000001 /* TaskModel.xcdatamodeld */ = {
+                        isa = XCVersionGroup;
+                        children = (
+                                A100002F2000000000000001 /* TaskModel.xcdatamodel */,
+                        );
+                        currentVersion = A100002F2000000000000001 /* TaskModel.xcdatamodel */;
+                        path = TaskModel.xcdatamodeld;
+                        sourceTree = "<group>";
+                        versionGroupType = wrapper.xcdatamodel;
+                };
+/* End XCVersionGroup section */
+
 /* Begin PBXNativeTarget section */
-		A10000502000000000000001 /* TodoListApp */ = {
+                A10000502000000000000001 /* TodoListApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A100005B2000000000000001 /* Build configuration list for PBXNativeTarget "TodoListApp" */;
 			buildPhases = (
@@ -299,10 +313,11 @@
 				A100001F2000000000000001 /* TaskRepositoryImpl.swift in Sources */,
 				A10000212000000000000001 /* TaskEntity+CoreDataClass.swift in Sources */,
 				A10000232000000000000001 /* TaskEntity+CoreDataProperties.swift in Sources */,
-				A10000252000000000000001 /* TaskDataModel.swift in Sources */,
-				A10000272000000000000001 /* PersistenceController.swift in Sources */,
-				A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */,
-			);
+                                A10000252000000000000001 /* TaskDataModel.swift in Sources */,
+                                A10000272000000000000001 /* PersistenceController.swift in Sources */,
+                                A10000292000000000000001 /* CoreDataTaskDataSource.swift in Sources */,
+                                A100002D2000000000000001 /* TaskModel.xcdatamodeld in Sources */,
+                        );
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
