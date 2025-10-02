@@ -8,16 +8,13 @@
         <attribute name="identifier" optional="NO" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="statusRaw" optional="NO" attributeType="String" syncable="YES"/>
         <attribute name="titleText" optional="NO" attributeType="String" syncable="YES"/>
-        <relationship name="list" optional="NO" toMany="NO" deletionRule="Nullify" destinationEntity="TaskListEntity" inverseName="tasks" inverseEntity="TaskListEntity" syncable="YES"/>
-    </entity>
+ </entity>
     <entity name="TaskListEntity" representedClassName="TaskListEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="categoryRaw" optional="NO" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="NO" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="name" optional="NO" attributeType="String" syncable="YES"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TaskEntity" inverseName="list" inverseEntity="TaskEntity" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskEntity" inverseName="list" inverseEntity="TaskEntity" syncable="YES"/>
     </entity>
     <elements>
         <element name="TaskEntity" positionX="-63" positionY="-18" width="128" height="150"/>
-        <element name="TaskListEntity" positionX="139" positionY="-18" width="128" height="150"/>
+        <element name="TaskListEntity" positionX="135" positionY="-18" width="128" height="90"/>
+
     </elements>
 </model>

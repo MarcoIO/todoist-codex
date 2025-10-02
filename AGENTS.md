@@ -3,6 +3,7 @@
 Este repositorio debe seguir una arquitectura basada en MVVM con una separación estricta en tres capas principales: **data**, **domain** y **presentation**. Cada capa es responsable de un conjunto definido de tareas y depende únicamente de la capa inmediatamente inferior.
 
 Tiene que ser compatible con iOS 14 y XCODE 14
+Añade test unitarios.
 
 ## Estructura recomendada
 ```
