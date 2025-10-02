@@ -46,7 +46,7 @@ struct TaskFormView: View {
                     Picker("form_category", selection: $selectedCategory) {
                         ForEach(categories) { category in
                             Label(
-                                title: { Text(category.localizationKey) },
+                                title: { Text(LocalizedStringKey(category.localizationKey)) },
                                 icon: { Image(systemName: category.iconName) }
                             )
                             .tag(category)

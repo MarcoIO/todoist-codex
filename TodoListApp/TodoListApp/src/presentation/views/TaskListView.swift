@@ -82,7 +82,7 @@ struct TaskListView: View {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(list.name)
                                             .font(.headline)
-                                        Text(list.category.localizationKey)
+                                        Text(LocalizedStringKey(list.category.localizationKey))
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                     }

@@ -26,7 +26,7 @@ struct TaskRowView: View {
 
                 HStack(spacing: 8) {
                     Label {
-                        Text(task.category.localizationKey)
+                        Text(LocalizedStringKey(task.category.localizationKey))
                     } icon: {
                         Image(systemName: task.category.iconName)
                     }

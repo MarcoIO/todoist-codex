@@ -47,7 +47,7 @@ struct TaskDetailView: View {
                             .font(.headline)
 
                             Label {
-                                Text(task.category.localizationKey)
+                                Text(LocalizedStringKey(task.category.localizationKey))
                             } icon: {
                                 Image(systemName: task.category.iconName)
                             }
