@@ -59,5 +59,3 @@ Estas pautas describen un estilo de codificación inspirado en prácticas interm
 - Documenta las clases, estructuras y funciones públicas con comentarios en formato Markdown.
 - Aplica sangría de cuatro espacios y alinea los cierres de llaves con la declaración correspondiente.
 - Agrupa las extensiones por protocolo o funcionalidad, añadiendo un comentario de encabezado que describa su propósito.
-
-Estas reglas se suman a las directrices de arquitectura definidas en `agent.md`.
