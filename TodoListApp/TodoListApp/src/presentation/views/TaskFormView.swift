@@ -26,18 +26,15 @@ struct TaskFormView: View {
         NavigationView {
             Form {
                 Section(header: Text("form_list")) {
-                    Label(listName, systemImage: "folder")
+                    Text(listName)
                         .foregroundColor(.primary)
                 }
 
                 Section(header: Text("form_icon")) {
                     Picker("form_icon", selection: $iconName) {
                         ForEach(availableIcons, id: \.self) { icon in
-                            Label(
-                                title: { Text(iconTitle(for: icon)) },
-                                icon: { Image(systemName: icon) }
-                            )
-                            .tag(icon)
+                            Text(iconTitle(for: icon))
+                                .tag(icon)
                         }
                     }
                 }
@@ -45,11 +42,8 @@ struct TaskFormView: View {
                 Section(header: Text("form_category")) {
                     Picker("form_category", selection: $selectedCategory) {
                         ForEach(categories) { category in
-                            Label(
-                                title: { Text(LocalizedStringKey(category.localizationKey)) },
-                                icon: { Image(systemName: category.iconName) }
-                            )
-                            .tag(category)
+                            Text(LocalizedStringKey(category.localizationKey))
+                                .tag(category)
                         }
                     }
                     .pickerStyle(.inline)
@@ -98,6 +92,7 @@ struct TaskFormView: View {
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
