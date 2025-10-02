@@ -19,17 +19,15 @@ struct TaskListFormView: View {
                 Section(header: Text("form_category")) {
                     Picker("form_category", selection: $selectedCategory) {
                         ForEach(categories) { category in
-                            Label(
-                                title: { Text(LocalizedStringKey(category.localizationKey)) },
-                                icon: { Image(systemName: category.iconName) }
-                            )
-                            .tag(category)
+                            Text(LocalizedStringKey(category.localizationKey))
+                                .tag(category)
                         }
                     }
                     .pickerStyle(.inline)
                 }
             }
             .navigationTitle(Text("form_add_list"))
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("action_cancel") {

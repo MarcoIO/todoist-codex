@@ -18,80 +18,83 @@ struct TaskDetailView: View {
         Group {
             if let task = viewModel.task {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack(spacing: 16) {
-                            Image(systemName: task.iconName)
-                                .font(.system(size: 50))
-                                .foregroundColor(.accentColor)
-                                .accessibilityHidden(true)
-
-                            VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 28) {
+                        VStack(alignment: .leading, spacing: 18) {
+                            labeledContent(title: "Titulo") {
                                 Text(task.title)
-                                    .font(.title)
-                                    .bold()
-                                Label {
-                                    Text(dateFormatter.string(from: task.dueDate))
-                                } icon: {
-                                    Image(systemName: "calendar")
-                                }
-                                .foregroundColor(.secondary)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
+                            }
+
+                            labeledContent(title: "Fecha") {
+                                Text(dateFormatter.string(from: task.dueDate))
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+
+                            labeledContent(title: "Descripcion") {
+                                Text(task.details)
+                                    .font(.body)
+                                    .foregroundColor(.primary)
                             }
                         }
+                        .padding(.vertical, 28)
+                        .padding(.horizontal, 24)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Label {
-                                Text(task.listName)
-                            } icon: {
-                                Image(systemName: "folder")
-                            }
-                            .font(.headline)
-
-                            Label {
-                                Text(LocalizedStringKey(task.category.localizationKey))
-                            } icon: {
-                                Image(systemName: task.category.iconName)
-                            }
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        VStack(alignment: .leading, spacing: 16) {
+                            infoRow(title: "form_list", value: Text(task.listName))
+                            infoRow(title: "form_category", value: Text(LocalizedStringKey(task.category.localizationKey)))
                         }
+                        .padding(.vertical, 24)
+                        .padding(.horizontal, 24)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
 
-                        Text(task.details)
-                            .font(.body)
-
-                        Divider()
-
-                        HStack {
-                            Label(
-                                title: { Text(task.status.localizationKey) },
-                                icon: {
-                                    Image(systemName: task.status == .completed ? "checkmark.circle.fill" : "clock")
-                                }
-                            )
-                            .font(.headline)
-                            .foregroundColor(task.status == .completed ? .green : .orange)
-
-                            Spacer()
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text(task.status.localizationKey)
+                                .font(.headline)
+                                .foregroundColor(task.status == .completed ? .green : .orange)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background((task.status == .completed ? Color.green : Color.orange).opacity(0.15))
+                                .clipShape(Capsule())
 
                             Button(action: {
                                 viewModel.toggleStatus()
                             }) {
                                 Text(task.status == .completed ? "action_mark_pending" : "action_mark_completed")
                                     .font(.headline)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
                                     .background(Color.accentColor)
                                     .foregroundColor(.white)
-                                    .cornerRadius(8)
+                                    .cornerRadius(12)
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
+                        .padding(.vertical, 24)
+                        .padding(.horizontal, 24)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
                     }
-                    .padding()
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 32)
                 }
+                .background(Color(.systemGroupedBackground).ignoresSafeArea())
             } else if let error = viewModel.errorMessage {
                 VStack(spacing: 12) {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 40))
-                        .foregroundColor(.orange)
                     Text("error_title")
                         .font(.headline)
                     Text(error)
@@ -108,6 +111,27 @@ struct TaskDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.loadTask()
+        }
+    }
+
+    private func infoRow(title: LocalizedStringKey, value: Text) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            value
+                .font(.headline)
+                .foregroundColor(.primary)
+        }
+    }
+
+    private func labeledContent<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .textCase(nil)
+            content()
         }
     }
 }
@@ -139,5 +163,6 @@ struct TaskDetailView_Previews: PreviewProvider {
                 )
             )
         }
+        .background(Color(.systemGroupedBackground))
     }
 }

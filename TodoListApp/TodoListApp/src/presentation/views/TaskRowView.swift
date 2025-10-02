@@ -9,29 +9,48 @@ struct TaskRowView: View {
         return formatter
     }()
 
-    var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: task.iconName)
-                .font(.system(size: 28))
-                .foregroundColor(task.status == .completed ? .green : .accentColor)
-                .accessibilityHidden(true)
+    private var statusColor: Color {
+        task.status == .completed ? .green : .orange
+    }
 
-            VStack(alignment: .leading, spacing: 6) {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(alignment: .firstTextBaseline) {
                 Text(task.title)
                     .font(.headline)
+                    .foregroundColor(.primary)
 
-                Text(task.listName)
+                Spacer()
+
+                Text(task.status.localizationKey)
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(statusColor)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(statusColor.opacity(0.15))
+                    .clipShape(Capsule())
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                fieldLabel("task_row_description_label")
+
+                Text(task.details)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .lineLimit(2)
+            }
 
-                HStack(spacing: 8) {
-                    Label {
-                        Text(LocalizedStringKey(task.category.localizationKey))
-                    } icon: {
-                        Image(systemName: task.category.iconName)
-                    }
+            HStack {
+                Text(task.listName)
                     .font(.caption)
                     .foregroundColor(.secondary)
+
+                Spacer()
+
+                VStack(alignment: .trailing, spacing: 6) {
+                    fieldLabel("task_row_date_label")
+                        .multilineTextAlignment(.trailing)
 
                     Text(dateFormatter.string(from: task.dueDate))
                         .font(.caption)
@@ -39,13 +58,33 @@ struct TaskRowView: View {
                 }
             }
 
-            Spacer()
+            VStack(alignment: .leading, spacing: 6) {
+                fieldLabel("task_row_category_label")
 
-            Image(systemName: task.status == .completed ? "checkmark.circle.fill" : "clock")
-                .foregroundColor(task.status == .completed ? .green : .orange)
-                .accessibilityLabel(Text(task.status.localizationKey))
+                Text(LocalizedStringKey(task.category.localizationKey))
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.accentColor)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(Color.accentColor.opacity(0.12))
+                    .clipShape(Capsule())
+                    .accessibilityLabel(Text(LocalizedStringKey(task.category.localizationKey)))
+            }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 20)
+        .padding(.horizontal, 24)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        )
+        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
+    }
+
+    private func fieldLabel(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(.caption)
+            .foregroundColor(.secondary)
     }
 }
 
@@ -63,7 +102,8 @@ struct TaskRowView_Previews: PreviewProvider {
                 category: .work
             )
         )
-        .previewLayout(.sizeThatFits)
         .padding()
+        .background(Color(.systemGroupedBackground))
+        .previewLayout(.sizeThatFits)
     }
 }

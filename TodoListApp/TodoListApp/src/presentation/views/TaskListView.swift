@@ -26,12 +26,10 @@ struct TaskListView: View {
         NavigationView {
             Group {
                 if viewModel.lists.isEmpty {
-                    VStack(spacing: 16) {
-                        Image(systemName: "list.bullet.rectangle")
-                            .font(.system(size: 48))
-                            .foregroundColor(.accentColor)
+                    VStack(spacing: 12) {
                         Text("empty_lists_title")
-                            .font(.headline)
+                            .font(.title3)
+                            .fontWeight(.semibold)
                         Text("empty_lists_description")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
@@ -41,28 +39,32 @@ struct TaskListView: View {
                 } else {
                     List {
                         ForEach(Array(viewModel.lists.enumerated()), id: \.element.id) { _, list in
-                            Section {
+                            Section(header: header(for: list)) {
                                 ForEach(list.tasks) { task in
                                     NavigationLink {
                                         detailBuilder(task)
                                     } label: {
                                         TaskRowView(task: task)
-                                            .contextMenu {
-                                                Button(action: {
-                                                    viewModel.toggleStatus(for: task)
-                                                }) {
-                                                    Label(
-                                                        task.status == .completed ? "action_mark_pending" : "action_mark_completed",
-                                                        systemImage: task.status == .completed ? "arrow.uturn.left" : "checkmark"
-                                                    )
-                                                }
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal, 16)
+                                    }
+                                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
+                                    .listRowBackground(Color.clear)
+                                    .contextMenu {
+                                        Button(action: {
+                                            viewModel.toggleStatus(for: task)
+                                        }) {
+                                            Label(
+                                                task.status == .completed ? "action_mark_pending" : "action_mark_completed",
+                                                systemImage: task.status == .completed ? "arrow.uturn.left" : "checkmark"
+                                            )
+                                        }
 
-                                                Button(role: .destructive, action: {
-                                                    viewModel.deleteTask(task)
-                                                }) {
-                                                    Label("action_delete", systemImage: "trash")
-                                                }
-                                            }
+                                        Button(role: .destructive, action: {
+                                            viewModel.deleteTask(task)
+                                        }) {
+                                            Label("action_delete", systemImage: "trash")
+                                        }
                                     }
                                 }
                                 .onDelete { offsets in
@@ -73,39 +75,30 @@ struct TaskListView: View {
                                     selectedListForTask = list
                                     isPresentingTaskForm = true
                                 } label: {
-                                    Label("action_add_task", systemImage: "plus.circle")
-                                }
-                            } header: {
-                                HStack(spacing: 8) {
-                                    Image(systemName: list.category.iconName)
-                                        .foregroundColor(.accentColor)
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(list.name)
-                                            .font(.headline)
-                                        Text(LocalizedStringKey(list.category.localizationKey))
-                                            .font(.subheadline)
-                                            .foregroundColor(.secondary)
+                                    HStack {
+                                        Text("action_add_task")
+                                        Spacer()
+                                        Image(systemName: "plus.circle")
                                     }
-                                    Spacer()
-                                    Text(String(format: NSLocalizedString("list_tasks_count_format", comment: ""), list.tasks.count))
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
+                                    .font(.subheadline)
+                                    .foregroundColor(.accentColor)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 16)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .fill(Color(.secondarySystemBackground))
+                                    )
                                 }
-                                .textCase(nil)
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        viewModel.delete(list: list)
-                                    } label: {
-                                        Label("action_delete_list", systemImage: "trash")
-                                    }
-                                }
+                                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                                .listRowBackground(Color.clear)
                             }
                         }
                         .onDelete { offsets in
                             viewModel.deleteLists(at: offsets)
                         }
                     }
-                    .listStyle(InsetGroupedListStyle())
+                    .listStyle(PlainListStyle())
+                    .background(Color(.systemGroupedBackground))
                 }
             }
             .navigationTitle(Text("lists_title"))
@@ -139,10 +132,9 @@ struct TaskListView: View {
                     TaskFormView(
                         listName: list.name,
                         categories: categories
-                    ) { icon, title, details, date, category in
+                    ) { title, details, date, category in
                         viewModel.addTask(
                             to: list,
-                            iconName: icon,
                             title: title,
                             details: details,
                             dueDate: date,
@@ -178,6 +170,35 @@ struct TaskListView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+
+private extension TaskListView {
+    func header(for list: TaskList) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(list.name)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                Spacer()
+                Text(String(format: NSLocalizedString("list_tasks_count_format", comment: ""), list.tasks.count))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Text(LocalizedStringKey(list.category.localizationKey))
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 8)
+        .textCase(nil)
+        .contextMenu {
+            Button(role: .destructive) {
+                viewModel.delete(list: list)
+            } label: {
+                Label("action_delete_list", systemImage: "trash")
+            }
+        }
     }
 }
 

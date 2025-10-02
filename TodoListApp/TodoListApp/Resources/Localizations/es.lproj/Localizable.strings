@@ -35,6 +35,9 @@
 "action_add_task" = "Agregar tarea";
 "action_delete" = "Eliminar";
 "action_delete_list" = "Eliminar lista";
+"task_row_description_label" = "Descripción";
+"task_row_date_label" = "Fecha";
+"task_row_category_label" = "Categoría";
 "language_picker" = "Idioma";
 "language_menu" = "Idioma";
 "action_mark_pending" = "Marcar como pendiente";
