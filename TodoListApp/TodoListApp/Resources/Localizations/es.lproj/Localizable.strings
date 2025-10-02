@@ -15,11 +15,13 @@
 "form_description_placeholder" = "Añade más detalles";
 "form_due_date" = "Fecha límite";
 "form_add_task" = "Nueva tarea";
+"form_edit_task" = "Editar tarea";
 "form_list" = "Lista";
 "form_category" = "Categoría";
 "form_list_name" = "Nombre de la lista";
 "form_list_name_placeholder" = "Añade un nombre de lista";
 "form_add_list" = "Nueva lista";
+"form_edit_list" = "Editar lista";
 "action_cancel" = "Cancelar";
 "action_save" = "Guardar";
 "icon_tasks" = "Tareas";
@@ -33,6 +35,7 @@
 "lists_title" = "Listas";
 "action_add_list" = "Agregar lista";
 "action_add_task" = "Agregar tarea";
+"action_edit" = "Editar";
 "action_delete" = "Eliminar";
 "action_delete_list" = "Eliminar lista";
 "language_picker" = "Idioma";
@@ -45,6 +48,7 @@
 "error_unknown" = "Algo salió mal. Inténtalo de nuevo.";
 "action_accept" = "Aceptar";
 "detail_title" = "Tarea";
+"detail_status_section" = "Estado";
 "language_english" = "Inglés";
 "language_spanish" = "Español";
 "category_work" = "Trabajo";

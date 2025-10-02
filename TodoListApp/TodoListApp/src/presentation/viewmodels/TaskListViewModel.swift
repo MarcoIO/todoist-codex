@@ -9,23 +9,26 @@ public final class TaskListViewModel: ObservableObject {
     private let addTaskListUseCase: AddTaskListUseCase
     private let deleteTaskListUseCase: DeleteTaskListUseCase
     private let addTaskUseCase: AddTaskToListUseCase
-    private let updateTaskStatusUseCase: UpdateTaskStatusUseCase
+    private let updateTaskUseCase: UpdateTaskUseCase
     private let deleteTaskUseCase: DeleteTaskUseCase
+    private let updateTaskListUseCase: UpdateTaskListUseCase
 
     public init(
         fetchTaskListsUseCase: FetchTaskListsUseCase,
         addTaskListUseCase: AddTaskListUseCase,
         deleteTaskListUseCase: DeleteTaskListUseCase,
         addTaskUseCase: AddTaskToListUseCase,
-        updateTaskStatusUseCase: UpdateTaskStatusUseCase,
-        deleteTaskUseCase: DeleteTaskUseCase
+        updateTaskUseCase: UpdateTaskUseCase,
+        deleteTaskUseCase: DeleteTaskUseCase,
+        updateTaskListUseCase: UpdateTaskListUseCase
     ) {
         self.fetchTaskListsUseCase = fetchTaskListsUseCase
         self.addTaskListUseCase = addTaskListUseCase
         self.deleteTaskListUseCase = deleteTaskListUseCase
         self.addTaskUseCase = addTaskUseCase
-        self.updateTaskStatusUseCase = updateTaskStatusUseCase
+        self.updateTaskUseCase = updateTaskUseCase
         self.deleteTaskUseCase = deleteTaskUseCase
+        self.updateTaskListUseCase = updateTaskListUseCase
     }
 
     @MainActor
@@ -80,14 +83,13 @@ public final class TaskListViewModel: ObservableObject {
     @MainActor
     public func addTask(
         to list: TaskList,
-        iconName: String,
         title: String,
         details: String,
         dueDate: Date,
         category: TaskCategory
     ) {
         let task = Task(
-            iconName: iconName,
+            iconName: Task.defaultIconName,
             title: title,
             details: details,
             dueDate: dueDate,
@@ -110,7 +112,48 @@ public final class TaskListViewModel: ObservableObject {
         var updatedTask = task
         updatedTask.status = task.status == .completed ? .pending : .completed
         do {
-            try updateTaskStatusUseCase.execute(task: updatedTask)
+            try updateTaskUseCase.execute(task: updatedTask)
+            loadLists()
+        } catch {
+            errorMessage = message(for: error)
+        }
+    }
+
+    @MainActor
+    public func updateTask(
+        _ task: Task,
+        title: String,
+        details: String,
+        dueDate: Date,
+        category: TaskCategory
+    ) {
+        var updatedTask = task
+        updatedTask.title = title
+        updatedTask.details = details
+        updatedTask.dueDate = dueDate
+        updatedTask.category = category
+
+        do {
+            try updateTaskUseCase.execute(task: updatedTask)
+            loadLists()
+        } catch {
+            errorMessage = message(for: error)
+        }
+    }
+
+    @MainActor
+    public func update(list: TaskList, name: String, category: TaskCategory) {
+        var updatedList = list
+        updatedList.name = name
+        updatedList.category = category
+        updatedList.tasks = updatedList.tasks.map { task in
+            var mutableTask = task
+            mutableTask.listName = name
+            return mutableTask
+        }
+
+        do {
+            try updateTaskListUseCase.execute(list: updatedList)
             loadLists()
         } catch {
             errorMessage = message(for: error)

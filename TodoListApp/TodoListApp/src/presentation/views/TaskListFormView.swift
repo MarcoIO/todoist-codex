@@ -8,6 +8,20 @@ struct TaskListFormView: View {
 
     let categories: [TaskCategory]
     let onSave: (String, TaskCategory) -> Void
+    private let isEditing: Bool
+
+    init(
+        categories: [TaskCategory],
+        initialList: TaskList? = nil,
+        onSave: @escaping (String, TaskCategory) -> Void
+    ) {
+        self.categories = categories
+        self.onSave = onSave
+        self.isEditing = initialList != nil
+        _name = State(initialValue: initialList?.name ?? "")
+        let defaultCategory = initialList?.category ?? categories.first ?? .work
+        _selectedCategory = State(initialValue: defaultCategory)
+    }
 
     var body: some View {
         NavigationView {
@@ -29,7 +43,7 @@ struct TaskListFormView: View {
                     .pickerStyle(.inline)
                 }
             }
-            .navigationTitle(Text("form_add_list"))
+            .navigationTitle(Text(isEditing ? "form_edit_list" : "form_add_list"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("action_cancel") {
@@ -47,9 +61,6 @@ struct TaskListFormView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear {
-            selectedCategory = categories.first ?? .work
-        }
     }
 }
 

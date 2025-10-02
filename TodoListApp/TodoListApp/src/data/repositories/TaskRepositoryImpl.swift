@@ -18,6 +18,11 @@ public final class TaskListRepositoryImpl: TaskListRepository {
         try dataSource.add(list: model)
     }
 
+    public func update(list: TaskList) throws {
+        let model = mapToData(list: list)
+        try dataSource.update(list: model)
+    }
+
     public func deleteList(identifier: UUID) throws {
         try dataSource.deleteList(by: identifier)
     }

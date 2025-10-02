@@ -25,7 +25,7 @@ final class TaskDetailViewModelTests: XCTestCase {
         viewModel = TaskDetailViewModel(
             taskIdentifier: task.id,
             getTaskByIDUseCase: GetTaskByIDUseCase(repository: repository),
-            updateTaskStatusUseCase: UpdateTaskStatusUseCase(repository: repository)
+            updateTaskUseCase: UpdateTaskUseCase(repository: repository)
         )
     }
 

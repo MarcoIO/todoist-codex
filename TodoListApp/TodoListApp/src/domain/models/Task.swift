@@ -2,6 +2,8 @@ import Foundation
 
 /// Domain representation of a task.
 public struct Task: Identifiable, Equatable, Codable {
+    public static let defaultIconName = "checkmark.circle"
+
     public let id: UUID
     public var iconName: String
     public var title: String

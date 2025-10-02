@@ -7,16 +7,16 @@ public final class TaskDetailViewModel: ObservableObject {
 
     private let taskIdentifier: UUID
     private let getTaskByIDUseCase: GetTaskByIDUseCase
-    private let updateTaskStatusUseCase: UpdateTaskStatusUseCase
+    private let updateTaskUseCase: UpdateTaskUseCase
 
     public init(
         taskIdentifier: UUID,
         getTaskByIDUseCase: GetTaskByIDUseCase,
-        updateTaskStatusUseCase: UpdateTaskStatusUseCase
+        updateTaskUseCase: UpdateTaskUseCase
     ) {
         self.taskIdentifier = taskIdentifier
         self.getTaskByIDUseCase = getTaskByIDUseCase
-        self.updateTaskStatusUseCase = updateTaskStatusUseCase
+        self.updateTaskUseCase = updateTaskUseCase
     }
 
     @MainActor
@@ -33,7 +33,7 @@ public final class TaskDetailViewModel: ObservableObject {
         guard var currentTask = task else { return }
         currentTask.status = currentTask.status == .completed ? .pending : .completed
         do {
-            try updateTaskStatusUseCase.execute(task: currentTask)
+            try updateTaskUseCase.execute(task: currentTask)
             loadTask()
         } catch {
             errorMessage = message(for: error)

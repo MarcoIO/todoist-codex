@@ -26,6 +26,20 @@ final class TaskListRepositoryTests: XCTestCase {
         XCTAssertTrue(lists.contains(where: { $0.id == list.id }))
     }
 
+    func testUpdateListPersistsChanges() throws {
+        var list = TaskList(name: "Errands", category: .errands)
+        try repository.add(list: list)
+
+        list.name = "Updated"
+        list.category = .work
+
+        try repository.update(list: list)
+
+        let storedList = try repository.fetchLists().first { $0.id == list.id }
+        XCTAssertEqual(storedList?.name, "Updated")
+        XCTAssertEqual(storedList?.category, .work)
+    }
+
     func testAddTaskToList() throws {
         let list = TaskList(name: "Personal", category: .personal)
         try repository.add(list: list)

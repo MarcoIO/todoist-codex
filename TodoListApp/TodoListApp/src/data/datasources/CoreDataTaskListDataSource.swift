@@ -29,6 +29,14 @@ public final class CoreDataTaskListDataSource {
         try context.save()
     }
 
+    public func update(list: TaskListDataModel) throws {
+        guard let entity = try fetchListEntity(identifier: list.identifier) else {
+            throw TaskDataSourceError.listNotFound
+        }
+        entity.update(from: list)
+        try context.save()
+    }
+
     public func deleteList(by identifier: UUID) throws {
         guard let entity = try fetchListEntity(identifier: identifier) else {
             throw TaskDataSourceError.listNotFound

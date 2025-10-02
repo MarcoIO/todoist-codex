@@ -17,28 +17,24 @@ struct TaskDetailView: View {
     var body: some View {
         Group {
             if let task = viewModel.task {
+                let detailsText = trimmedDetails(for: task)
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack(spacing: 16) {
-                            Image(systemName: task.iconName)
-                                .font(.system(size: 50))
-                                .foregroundColor(.accentColor)
-                                .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 24) {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text(task.title)
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.leading)
 
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(task.title)
-                                    .font(.title)
-                                    .bold()
-                                Label {
-                                    Text(dateFormatter.string(from: task.dueDate))
-                                } icon: {
-                                    Image(systemName: "calendar")
-                                }
-                                .foregroundColor(.secondary)
+                            Label {
+                                Text(dateFormatter.string(from: task.dueDate))
+                            } icon: {
+                                Image(systemName: "calendar")
                             }
+                            .foregroundColor(.secondary)
                         }
 
-                        VStack(alignment: .leading, spacing: 8) {
+                        VStack(alignment: .leading, spacing: 16) {
                             Label {
                                 Text(task.listName)
                             } icon: {
@@ -55,35 +51,56 @@ struct TaskDetailView: View {
                             .foregroundColor(.secondary)
                         }
 
-                        Text(task.details)
-                            .font(.body)
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("form_description")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
 
-                        Divider()
+                            Text(detailsText.isEmpty ? NSLocalizedString("form_description_placeholder", comment: "") : detailsText)
+                                .font(.body)
+                                .foregroundColor(detailsText.isEmpty ? .secondary : .primary)
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
 
-                        HStack {
-                            Label(
-                                title: { Text(task.status.localizationKey) },
-                                icon: {
-                                    Image(systemName: task.status == .completed ? "checkmark.circle.fill" : "clock")
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("detail_status_section")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+
+                            HStack {
+                                Label(
+                                    title: { Text(task.status.localizationKey) },
+                                    icon: {
+                                        Image(systemName: task.status == .completed ? "checkmark.circle.fill" : "clock")
+                                    }
+                                )
+                                .font(.headline)
+                                .foregroundColor(task.status == .completed ? .green : .orange)
+
+                                Spacer()
+
+                                Button(action: {
+                                    viewModel.toggleStatus()
+                                }) {
+                                    Text(task.status == .completed ? "action_mark_pending" : "action_mark_completed")
+                                        .font(.headline)
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 10)
+                                        .background(Color.accentColor)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
                                 }
-                            )
-                            .font(.headline)
-                            .foregroundColor(task.status == .completed ? .green : .orange)
-
-                            Spacer()
-
-                            Button(action: {
-                                viewModel.toggleStatus()
-                            }) {
-                                Text(task.status == .completed ? "action_mark_pending" : "action_mark_completed")
-                                    .font(.headline)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .background(Color.accentColor)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
                             }
                         }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
                     }
                     .padding()
                 }
@@ -110,13 +127,17 @@ struct TaskDetailView: View {
             viewModel.loadTask()
         }
     }
+
+    private func trimmedDetails(for task: Task) -> String {
+        task.details.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 struct TaskDetailView_Previews: PreviewProvider {
     static var previews: some View {
         let repository = TaskListRepositoryImpl(dataSource: CoreDataTaskListDataSource(context: PersistenceController(inMemory: true).container.viewContext))
         let useCase = GetTaskByIDUseCase(repository: repository)
-        let update = UpdateTaskStatusUseCase(repository: repository)
+        let update = UpdateTaskUseCase(repository: repository)
         let list = TaskList(name: NSLocalizedString("sample_list_work", comment: ""), category: .work)
         let task = Task(
             iconName: "list.bullet.rectangle",
@@ -135,7 +156,7 @@ struct TaskDetailView_Previews: PreviewProvider {
                 viewModel: TaskDetailViewModel(
                     taskIdentifier: task.id,
                     getTaskByIDUseCase: useCase,
-                    updateTaskStatusUseCase: update
+                    updateTaskUseCase: update
                 )
             )
         }

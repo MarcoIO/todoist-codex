@@ -7,6 +7,8 @@ struct TaskListView: View {
     @State private var isPresentingTaskForm = false
     @State private var isPresentingListForm = false
     @State private var selectedListForTask: TaskList?
+    @State private var editingTask: Task?
+    @State private var editingList: TaskList?
 
     private let detailBuilder: (Task) -> TaskDetailView
 
@@ -57,6 +59,12 @@ struct TaskListView: View {
                                                     )
                                                 }
 
+                                                Button(action: {
+                                                    editingTask = task
+                                                }) {
+                                                    Label("action_edit", systemImage: "pencil")
+                                                }
+
                                                 Button(role: .destructive, action: {
                                                     viewModel.deleteTask(task)
                                                 }) {
@@ -64,6 +72,8 @@ struct TaskListView: View {
                                                 }
                                             }
                                     }
+                                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                                    .listRowBackground(Color.clear)
                                 }
                                 .onDelete { offsets in
                                     viewModel.deleteTasks(in: list, at: offsets)
@@ -93,6 +103,12 @@ struct TaskListView: View {
                                 }
                                 .textCase(nil)
                                 .contextMenu {
+                                    Button {
+                                        editingList = list
+                                    } label: {
+                                        Label("action_edit", systemImage: "pencil")
+                                    }
+
                                     Button(role: .destructive) {
                                         viewModel.delete(list: list)
                                     } label: {
@@ -139,10 +155,9 @@ struct TaskListView: View {
                     TaskFormView(
                         listName: list.name,
                         categories: categories
-                    ) { icon, title, details, date, category in
+                    ) { title, details, date, category in
                         viewModel.addTask(
                             to: list,
-                            iconName: icon,
                             title: title,
                             details: details,
                             dueDate: date,
@@ -158,6 +173,31 @@ struct TaskListView: View {
             .sheet(isPresented: $isPresentingListForm) {
                 TaskListFormView(categories: categories) { name, category in
                     viewModel.addList(name: name, category: category)
+                }
+                .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
+            }
+            .sheet(item: $editingTask) { task in
+                TaskFormView(
+                    listName: task.listName,
+                    categories: categories,
+                    initialTask: task
+                ) { title, details, date, category in
+                    viewModel.updateTask(
+                        task,
+                        title: title,
+                        details: details,
+                        dueDate: date,
+                        category: category
+                    )
+                }
+                .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
+            }
+            .sheet(item: $editingList) { list in
+                TaskListFormView(
+                    categories: categories,
+                    initialList: list
+                ) { name, category in
+                    viewModel.update(list: list, name: name, category: category)
                 }
                 .environment(\.locale, Locale(identifier: languageController.currentLanguage.localeIdentifier))
             }
@@ -189,7 +229,8 @@ struct TaskListView_Previews: PreviewProvider {
         let addList = AddTaskListUseCase(repository: repository)
         let deleteList = DeleteTaskListUseCase(repository: repository)
         let addTask = AddTaskToListUseCase(repository: repository)
-        let update = UpdateTaskStatusUseCase(repository: repository)
+        let updateTask = UpdateTaskUseCase(repository: repository)
+        let updateList = UpdateTaskListUseCase(repository: repository)
         let delete = DeleteTaskUseCase(repository: repository)
         let get = GetTaskByIDUseCase(repository: repository)
         let listViewModel = TaskListViewModel(
@@ -197,8 +238,9 @@ struct TaskListView_Previews: PreviewProvider {
             addTaskListUseCase: addList,
             deleteTaskListUseCase: deleteList,
             addTaskUseCase: addTask,
-            updateTaskStatusUseCase: update,
-            deleteTaskUseCase: delete
+            updateTaskUseCase: updateTask,
+            deleteTaskUseCase: delete,
+            updateTaskListUseCase: updateList
         )
         listViewModel.loadLists()
 
@@ -207,7 +249,7 @@ struct TaskListView_Previews: PreviewProvider {
                 viewModel: TaskDetailViewModel(
                     taskIdentifier: task.id,
                     getTaskByIDUseCase: get,
-                    updateTaskStatusUseCase: update
+                    updateTaskUseCase: updateTask
                 )
             )
         }

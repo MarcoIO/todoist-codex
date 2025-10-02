@@ -3,7 +3,6 @@ import SwiftUI
 struct TaskFormView: View {
     @Environment(\.presentationMode) private var presentationMode
 
-    @State private var iconName: String = "list.bullet.circle"
     @State private var title: String = ""
     @State private var details: String = ""
     @State private var dueDate: Date = Date()
@@ -11,16 +10,25 @@ struct TaskFormView: View {
 
     let listName: String
     let categories: [TaskCategory]
-    let onSave: (String, String, String, Date, TaskCategory) -> Void
+    let onSave: (String, String, Date, TaskCategory) -> Void
+    private let isEditing: Bool
 
-    private let availableIcons: [String] = [
-        "list.bullet.circle",
-        "list.bullet.clipboard",
-        "tray.full",
-        "calendar",
-        "star",
-        "bell"
-    ]
+    init(
+        listName: String,
+        categories: [TaskCategory],
+        initialTask: Task? = nil,
+        onSave: @escaping (String, String, Date, TaskCategory) -> Void
+    ) {
+        self.listName = listName
+        self.categories = categories
+        self.onSave = onSave
+        self.isEditing = initialTask != nil
+        _title = State(initialValue: initialTask?.title ?? "")
+        _details = State(initialValue: initialTask?.details ?? "")
+        _dueDate = State(initialValue: initialTask?.dueDate ?? Date())
+        let defaultCategory = initialTask?.category ?? categories.first ?? .work
+        _selectedCategory = State(initialValue: defaultCategory)
+    }
 
     var body: some View {
         NavigationView {
@@ -28,18 +36,6 @@ struct TaskFormView: View {
                 Section(header: Text("form_list")) {
                     Label(listName, systemImage: "folder")
                         .foregroundColor(.primary)
-                }
-
-                Section(header: Text("form_icon")) {
-                    Picker("form_icon", selection: $iconName) {
-                        ForEach(availableIcons, id: \.self) { icon in
-                            Label(
-                                title: { Text(iconTitle(for: icon)) },
-                                icon: { Image(systemName: icon) }
-                            )
-                            .tag(icon)
-                        }
-                    }
                 }
 
                 Section(header: Text("form_category")) {
@@ -82,7 +78,7 @@ struct TaskFormView: View {
                     }
                 }
             }
-            .navigationTitle(Text("form_add_task"))
+            .navigationTitle(Text(isEditing ? "form_edit_task" : "form_add_task"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("action_cancel") {
@@ -92,7 +88,7 @@ struct TaskFormView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("action_save") {
-                        onSave(iconName, title, details, dueDate, selectedCategory)
+                        onSave(title, details, dueDate, selectedCategory)
                         presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -100,28 +96,6 @@ struct TaskFormView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear {
-            selectedCategory = categories.first ?? .work
-        }
-    }
-
-    private func iconTitle(for icon: String) -> String {
-        switch icon {
-        case "list.bullet.circle":
-            return NSLocalizedString("icon_tasks", comment: "")
-        case "list.bullet.clipboard":
-            return NSLocalizedString("icon_clipboard", comment: "")
-        case "tray.full":
-            return NSLocalizedString("icon_inbox", comment: "")
-        case "calendar":
-            return NSLocalizedString("icon_calendar", comment: "")
-        case "star":
-            return NSLocalizedString("icon_star", comment: "")
-        case "bell":
-            return NSLocalizedString("icon_bell", comment: "")
-        default:
-            return icon
-        }
     }
 }
 
@@ -130,6 +104,6 @@ struct TaskFormView_Previews: PreviewProvider {
         TaskFormView(
             listName: NSLocalizedString("sample_list_work", comment: ""),
             categories: TaskCategory.allCases
-        ) { _, _, _, _, _ in }
+        ) { _, _, _, _ in }
     }
 }

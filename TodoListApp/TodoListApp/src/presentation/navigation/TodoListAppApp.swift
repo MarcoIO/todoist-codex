@@ -38,8 +38,9 @@ private final class AppDependencies {
             addTaskListUseCase: AddTaskListUseCase(repository: repository),
             deleteTaskListUseCase: DeleteTaskListUseCase(repository: repository),
             addTaskUseCase: AddTaskToListUseCase(repository: repository),
-            updateTaskStatusUseCase: UpdateTaskStatusUseCase(repository: repository),
-            deleteTaskUseCase: DeleteTaskUseCase(repository: repository)
+            updateTaskUseCase: UpdateTaskUseCase(repository: repository),
+            deleteTaskUseCase: DeleteTaskUseCase(repository: repository),
+            updateTaskListUseCase: UpdateTaskListUseCase(repository: repository)
         )
     }
 
@@ -47,7 +48,7 @@ private final class AppDependencies {
         TaskDetailViewModel(
             taskIdentifier: identifier,
             getTaskByIDUseCase: GetTaskByIDUseCase(repository: repository),
-            updateTaskStatusUseCase: UpdateTaskStatusUseCase(repository: repository)
+            updateTaskUseCase: UpdateTaskUseCase(repository: repository)
         )
     }
 }

@@ -10,42 +10,66 @@ struct TaskRowView: View {
     }()
 
     var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: task.iconName)
-                .font(.system(size: 28))
-                .foregroundColor(task.status == .completed ? .green : .accentColor)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top) {
                 Text(task.title)
                     .font(.headline)
+                    .multilineTextAlignment(.leading)
 
-                Text(task.listName)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                Spacer()
 
-                HStack(spacing: 8) {
-                    Label {
-                        Text(LocalizedStringKey(task.category.localizationKey))
-                    } icon: {
-                        Image(systemName: task.category.iconName)
-                    }
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-
+                Label {
                     Text(dateFormatter.string(from: task.dueDate))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                } icon: {
+                    Image(systemName: "calendar")
                 }
+                .font(.caption)
+                .foregroundColor(.secondary)
             }
 
-            Spacer()
+            if !task.details.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Text(task.details)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+            }
 
-            Image(systemName: task.status == .completed ? "checkmark.circle.fill" : "clock")
-                .foregroundColor(task.status == .completed ? .green : .orange)
-                .accessibilityLabel(Text(task.status.localizationKey))
+            HStack(spacing: 12) {
+                Label {
+                    Text(task.listName)
+                } icon: {
+                    Image(systemName: "folder")
+                }
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+                Label {
+                    Text(LocalizedStringKey(task.category.localizationKey))
+                } icon: {
+                    Image(systemName: task.category.iconName)
+                }
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+                Spacer()
+
+                Text(task.status.localizationKey)
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(task.status == .completed ? Color.green.opacity(0.15) : Color.orange.opacity(0.15))
+                    .foregroundColor(task.status == .completed ? .green : .orange)
+                    .clipShape(Capsule())
+                    .accessibilityLabel(Text(task.status.localizationKey))
+            }
         }
-        .padding(.vertical, 8)
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }
 

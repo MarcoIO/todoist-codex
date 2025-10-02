@@ -65,7 +65,7 @@ final class TaskUseCasesTests: XCTestCase {
         XCTAssertEqual(repository.lists.first?.tasks, list.tasks)
     }
 
-    func testUpdateTaskStatusUseCaseUpdatesTask() throws {
+    func testUpdateTaskUseCaseUpdatesTask() throws {
         var task = Task(
             iconName: "star",
             title: "Focus",
@@ -78,13 +78,27 @@ final class TaskUseCasesTests: XCTestCase {
         )
         var list = TaskList(id: task.listID, name: task.listName, category: .work, tasks: [task])
         repository.lists = [list]
-        let useCase = UpdateTaskStatusUseCase(repository: repository)
+        let useCase = UpdateTaskUseCase(repository: repository)
 
         task.status = .completed
         try useCase.execute(task: task)
 
         list.tasks[0] = task
         XCTAssertEqual(repository.lists.first?.tasks, list.tasks)
+    }
+
+    func testUpdateTaskListUseCaseUpdatesList() throws {
+        var list = TaskList(name: "Personal", category: .personal)
+        repository.lists = [list]
+        let useCase = UpdateTaskListUseCase(repository: repository)
+
+        list.name = "Updated"
+        list.category = .work
+
+        try useCase.execute(list: list)
+
+        XCTAssertEqual(repository.lists.first?.name, "Updated")
+        XCTAssertEqual(repository.lists.first?.category, .work)
     }
 
     func testDeleteTaskUseCaseRemovesTask() throws {

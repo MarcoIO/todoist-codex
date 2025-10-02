@@ -5,6 +5,7 @@ final class TaskListRepositoryMock: TaskListRepository {
     var lists: [TaskList] = []
     var fetchListsError: Error?
     var addListError: Error?
+    var updateListError: Error?
     var deleteListError: Error?
     var addTaskError: Error?
     var updateTaskError: Error?
@@ -23,6 +24,16 @@ final class TaskListRepositoryMock: TaskListRepository {
             throw error
         }
         lists.append(list)
+    }
+
+    func update(list: TaskList) throws {
+        if let error = updateListError {
+            throw error
+        }
+        guard let index = lists.firstIndex(where: { $0.id == list.id }) else {
+            throw TaskDataSourceError.listNotFound
+        }
+        lists[index] = list
     }
 
     func deleteList(identifier: UUID) throws {
